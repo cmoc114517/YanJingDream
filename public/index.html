@@ -53,6 +53,20 @@
     transition: opacity 0.3s; cursor: pointer; background: none; border: none; padding: 0;
   }
   .nav-register-btn:hover { opacity: 1; }
+  /* 登录态导航 */
+  .nav-user { display: none; align-items: center; gap: 8px; }
+  .nav-user.show { display: flex; }
+  .nav-user-name { font-size: 12px; color: #f5f5f7; opacity: 0.9; cursor: default; }
+  .nav-logout-btn { font-size: 11px; color: #ff375f; background: none; border: none; cursor: pointer; opacity: 0.7; transition: opacity 0.3s; padding: 2px 6px; border-radius: 4px; }
+  .nav-logout-btn:hover { opacity: 1; background: rgba(255,55,95,0.15); }
+  /* 登录/注册切换 */
+  .modal-switch { text-align: center; margin-top: 16px; font-size: 14px; color: #6e6e73; }
+  .modal-switch a { color: #2997ff; text-decoration: none; cursor: pointer; }
+  .modal-switch a:hover { text-decoration: underline; }
+  .login-form-content { display: none; }
+  .login-form-content.show { display: block; }
+  .register-form-content { display: block; }
+  .register-form-content.hide { display: none; }
 
   /* ===== HERO ===== */
   .hero {
@@ -244,7 +258,7 @@
   .footer { background: #f5f5f7; padding: 60px 0 40px; }
   .footer-inner { max-width: 1024px; margin: 0 auto; padding: 0 24px; }
   .footer-legal { font-size: 12px; color: #6e6e73; line-height: 1.6; padding-bottom: 20px; border-bottom: 1px solid #d2d2d7; margin-bottom: 16px; }
-  .footer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 30px; padding: 20px 0 30px; }
+  .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; padding: 20px 0 30px; }
   .footer-col h4 { font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 12px; }
   .footer-col a { display: block; font-size: 12px; color: #6e6e73; text-decoration: none; padding: 4px 0; transition: color 0.3s; }
   .footer-col a:hover { color: #1d1d1f; }
@@ -445,66 +459,88 @@
 <!-- ===== TOAST CONTAINER ===== -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- ===== REGISTER MODAL ===== -->
+<!-- ===== AUTH MODAL (注册 + 登录) ===== -->
 <div class="modal-overlay" id="modalOverlay">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal" role="dialog" aria-modal="true">
     <button class="modal-close" id="modalClose" aria-label="关闭">&#215;</button>
 
-    <!-- Form 内容 -->
-    <div class="modal-form-content" id="modalFormContent">
+    <!-- ===== 注册表单 ===== -->
+    <div class="register-form-content" id="registerFormContent">
       <div class="modal-logo">YanJing And Hundred Dream</div>
-      <h2 class="modal-title" id="modalTitle">创建你的账户</h2>
+      <h2 class="modal-title">创建你的账户</h2>
       <p class="modal-subtitle">加入 YanJing 生态，探索无限可能</p>
 
       <form id="registerForm" novalidate>
         <div class="form-group">
-          <label for="inp-username">用户名</label>
-          <input class="form-input" type="text" id="inp-username" placeholder="2-20 个字符" autocomplete="username" maxlength="20">
-          <div class="form-error" id="err-username"></div>
+          <label for="reg-username">用户名</label>
+          <input class="form-input" type="text" id="reg-username" placeholder="3-30 个字符，字母数字下划线" autocomplete="username" maxlength="30">
+          <div class="form-error" id="err-reg-username"></div>
         </div>
 
         <div class="form-group">
-          <label for="inp-email">电子邮件</label>
-          <input class="form-input" type="email" id="inp-email" placeholder="example@mail.com" autocomplete="email">
-          <div class="form-error" id="err-email"></div>
+          <label for="reg-email">电子邮件</label>
+          <input class="form-input" type="email" id="reg-email" placeholder="example@mail.com" autocomplete="email">
+          <div class="form-error" id="err-reg-email"></div>
         </div>
 
         <div class="form-group">
-          <label for="inp-password">密码</label>
-          <input class="form-input" type="password" id="inp-password" placeholder="至少 8 个字符" autocomplete="new-password">
-          <div class="form-error" id="err-password"></div>
+          <label for="reg-password">密码</label>
+          <input class="form-input" type="password" id="reg-password" placeholder="至少 8 个字符" autocomplete="new-password">
+          <div class="form-error" id="err-reg-password"></div>
         </div>
 
         <div class="form-divider"></div>
 
         <div class="form-group">
-          <label for="inp-code">注册码 <span style="color:#ff375f">*</span></label>
+          <label for="reg-code">注册码</label>
           <div class="input-code-wrap">
-            <input class="form-input" type="text" id="inp-code" placeholder="请输入邀请注册码" autocomplete="off">
+            <input class="form-input" type="text" id="reg-code" placeholder="请输入邀请注册码" autocomplete="off">
             <span class="code-indicator" id="codeIndicator"></span>
           </div>
-          <div class="form-hint" id="hint-code">注册码为必填项，没有注册码无法完成注册</div>
-          <div class="form-error" id="err-code"></div>
+          <div class="form-hint" id="hint-code">注册码为必填项</div>
+          <div class="form-error" id="err-reg-code"></div>
         </div>
 
-        <button class="modal-submit" type="submit" id="submitBtn">
+        <button class="modal-submit" type="submit" id="regSubmitBtn">
           <span class="btn-text">立即注册</span>
-          <span class="btn-loading">
-            <span class="loading-dot"></span>
-            <span class="loading-dot"></span>
-            <span class="loading-dot"></span>
-          </span>
+          <span class="btn-loading"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></span>
         </button>
-
-        <p class="modal-login-hint">已有账户？<a href="#">登录</a></p>
       </form>
+      <p class="modal-switch">已有账户？<a onclick="switchModal('login')">登录</a></p>
     </div>
 
-    <!-- 注册成功界面 -->
+    <!-- ===== 登录表单 ===== -->
+    <div class="login-form-content" id="loginFormContent">
+      <div class="modal-logo">YanJing And Hundred Dream</div>
+      <h2 class="modal-title">登录</h2>
+      <p class="modal-subtitle">欢迎回来，继续你的 YanJing 之旅</p>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="login-account">用户名 或 邮箱</label>
+          <input class="form-input" type="text" id="login-account" placeholder="输入用户名或邮箱地址" autocomplete="username">
+          <div class="form-error" id="err-login-account"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">密码</label>
+          <input class="form-input" type="password" id="login-password" placeholder="输入密码" autocomplete="current-password">
+          <div class="form-error" id="err-login-password"></div>
+        </div>
+
+        <button class="modal-submit" type="submit" id="loginSubmitBtn">
+          <span class="btn-text">登录</span>
+          <span class="btn-loading"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></span>
+        </button>
+      </form>
+      <p class="modal-switch">还没有账户？<a onclick="switchModal('register')">创建新账户</a></p>
+    </div>
+
+    <!-- 登录/注册成功界面 -->
     <div class="modal-success" id="modalSuccess">
       <div class="success-icon">&#10003;</div>
-      <div class="success-title" id="successTitle">欢迎加入！</div>
-      <p class="success-msg" id="successMsg">你的 YanJing 账户已创建成功。</p>
+      <div class="success-title" id="successTitle">欢迎！</div>
+      <p class="success-msg" id="successMsg"></p>
       <button class="btn-primary" onclick="closeModal()" style="width:100%;justify-content:center;">开始探索</button>
     </div>
   </div>
@@ -514,14 +550,15 @@
 <nav class="nav" id="mainNav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">YanJing & Hundred Dream</a>
-    <a href="#yphone" class="nav-link hide-mobile">Yphone</a>
-    <a href="#ymac" class="nav-link hide-mobile">YMac</a>
-    <a href="#ypad" class="nav-link hide-mobile">YPad</a>
-    <a href="#ywatch" class="nav-link hide-mobile">YWatch</a>
-    <a href="#yvision" class="nav-link hide-mobile">YVision</a>
-    <a href="#support" class="nav-link hide-mobile">支持</a>
+    <a href="ycall.html" class="nav-link hide-mobile">Ycall</a>
+    <a href="ypad.html" class="nav-link hide-mobile">YPad</a>
+    <a href="yvision.html" class="nav-link hide-mobile">YVision</a>
     <div class="nav-actions">
-      <button class="nav-register-btn" onclick="openModal()">注册</button>
+      <button class="nav-register-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
+      <div class="nav-user" id="navUser">
+        <span class="nav-user-name" id="navUserName"></span>
+        <button class="nav-logout-btn" onclick="logout()">退出</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -530,31 +567,31 @@
 <section class="hero">
   <div class="hero-content">
     <p class="hero-eyebrow">全新发布</p>
-    <h1 class="hero-title"><span class="accent">Yphone 16 Pro</span></h1>
+    <h1 class="hero-title"><span class="accent">Ycall 2 Pro</span></h1>
     <p class="hero-subtitle">为 YanJing 智能而生。重塑想象。</p>
     <div class="hero-cta">
-      <a href="#" class="btn-primary">进一步了解</a>
+      <a href="ycall.html" class="btn-primary">进一步了解</a>
       <button class="btn-secondary" onclick="openModal()">立即注册</button>
     </div>
   </div>
   <div class="hero-device reveal">
     <div class="hero-device-inner">
       <div class="hero-device-bg"></div>
-      <!-- 真实产品图：替换 images/products/yphone-hero.png -->
+      <!-- 真实产品图：替换 images/products/ycall-hero.png -->
       <img class="hero-product-img"
-           src="images/products/yphone-hero.png"
-           alt="Yphone 16 Pro"
+           src="images/products/ycall-hero.png"
+           alt="Ycall 2 Pro"
            onerror="this.style.display='none';this.parentElement.querySelector('.hero-device-screen').style.display='flex';">
       <!-- CSS fallback（无图片时显示） -->
       <div class="hero-device-screen" style="display:none">
-        <span class="hero-device-text">YPHONE</span>
+        <span class="hero-device-text">YCALL</span>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ===== PRODUCTS GRID ===== -->
-<section class="section section-white" id="yphone">
+<section class="section section-white" id="ycall">
   <div class="reveal" style="text-align:center;padding:0 24px;">
     <p class="section-label">产品</p>
     <h2 class="section-title">探索全系列产品</h2>
@@ -564,73 +601,37 @@
     <div class="product-card card-yphone reveal reveal-delay-1">
       <div class="product-card-inner">
         <div class="product-card-logo">全新</div>
-        <div class="product-card-name">Yphone 16 Pro</div>
+        <div class="product-card-name">Ycall 2 Pro</div>
         <div class="product-card-tagline">钛金属，强得很。</div>
-        <div class="product-card-links"><a href="#">进一步了解</a><a href="#">购买</a></div>
+        <div class="product-card-links"><a href="ycall.html">进一步了解</a><a href="#" onclick="event.preventDefault();openModal()">购买</a></div>
       </div>
       <div class="product-visual">
-        <div class="product-img-wrap"><img class="product-img" src="images/products/yphone.png" alt="Yphone 16 Pro" onerror="this.parentElement.parentElement.classList.remove('has-image')"></div>
+        <div class="product-img-wrap"><img class="product-img" src="images/products/ycall.png" alt="Ycall 2 Pro" onerror="this.parentElement.parentElement.classList.remove('has-image')"></div>
         <div class="device-fallback"><div class="device-shape"><div class="device-screen screen-gradient-1"><span class="screen-icon">📱</span></div></div></div>
       </div>
     </div>
-    <div class="product-card card-ymac reveal reveal-delay-2" id="ymac">
-      <div class="product-card-inner">
-        <div class="product-card-logo">全新</div>
-        <div class="product-card-name">YMac Pro</div>
-        <div class="product-card-tagline">M4 芯片，澎湃动力。</div>
-        <div class="product-card-links"><a href="#">进一步了解</a><a href="#">购买</a></div>
-      </div>
-      <div class="product-visual">
-        <div class="product-img-wrap"><img class="product-img" src="images/products/ymac.png" alt="YMac Pro" onerror="this.parentElement.parentElement.classList.remove('has-image')"></div>
-        <div class="device-fallback"><div class="device-shape"><div class="device-screen screen-gradient-2"><span class="screen-icon">💻</span></div></div></div>
-      </div>
-    </div>
-    <div class="product-card card-ypad reveal reveal-delay-3" id="ypad">
+    <div class="product-card card-ypad reveal reveal-delay-2" id="ypad">
       <div class="product-card-inner">
         <div class="product-card-logo">全新</div>
         <div class="product-card-name">YPad Air</div>
         <div class="product-card-tagline">轻盈。多彩。全能。</div>
-        <div class="product-card-links"><a href="#">进一步了解</a><a href="#">购买</a></div>
+        <div class="product-card-links"><a href="ypad.html">进一步了解</a><a href="#" onclick="event.preventDefault();openModal()">购买</a></div>
       </div>
       <div class="product-visual">
         <div class="product-img-wrap"><img class="product-img" src="images/products/ypad.png" alt="YPad Air" onerror="this.parentElement.parentElement.classList.remove('has-image')"></div>
         <div class="device-fallback"><div class="device-shape"><div class="device-screen screen-gradient-3"><span class="screen-icon">📋</span></div></div></div>
       </div>
     </div>
-    <div class="product-card card-ywatch reveal reveal-delay-4" id="ywatch">
-      <div class="product-card-inner">
-        <div class="product-card-logo">全新</div>
-        <div class="product-card-name">YWatch Ultra 2</div>
-        <div class="product-card-tagline">突破极限的冒险搭档。</div>
-        <div class="product-card-links"><a href="#">进一步了解</a><a href="#">购买</a></div>
-      </div>
-      <div class="product-visual">
-        <div class="product-img-wrap"><img class="product-img" src="images/products/ywatch.png" alt="YWatch Ultra 2" onerror="this.parentElement.parentElement.classList.remove('has-image')"></div>
-        <div class="device-fallback"><div class="device-shape"><div class="device-screen screen-gradient-4"><span class="screen-icon">⌚</span></div></div></div>
-      </div>
-    </div>
-    <div class="product-card card-yvision reveal reveal-delay-5" id="yvision">
+    <div class="product-card card-yvision reveal reveal-delay-3" id="yvision">
       <div class="product-card-inner">
         <div class="product-card-logo">全新</div>
         <div class="product-card-name">YVision Pro</div>
         <div class="product-card-tagline">欢迎来到空间计算时代。</div>
-        <div class="product-card-links"><a href="#">进一步了解</a><a href="#">购买</a></div>
+        <div class="product-card-links"><a href="yvision.html">进一步了解</a><a href="#" onclick="event.preventDefault();openModal()">购买</a></div>
       </div>
       <div class="product-visual">
         <div class="product-img-wrap"><img class="product-img" src="images/products/yvision.png" alt="YVision Pro" onerror="this.parentElement.parentElement.classList.remove('has-image')"></div>
         <div class="device-fallback"><div class="device-shape"><div class="device-screen screen-gradient-5"><span class="screen-icon">🥽</span></div></div></div>
-      </div>
-    </div>
-    <div class="product-card card-yair reveal reveal-delay-6" id="yair">
-      <div class="product-card-inner">
-        <div class="product-card-logo">全新</div>
-        <div class="product-card-name">YAirPods Max</div>
-        <div class="product-card-tagline">声临其境的听觉盛宴。</div>
-        <div class="product-card-links"><a href="#">进一步了解</a><a href="#">购买</a></div>
-      </div>
-      <div class="product-visual">
-        <div class="product-img-wrap"><img class="product-img" src="images/products/yairpods.png" alt="YAirPods Max" onerror="this.parentElement.parentElement.classList.remove('has-image')"></div>
-        <div class="device-fallback"><div class="device-shape"><div class="device-screen screen-gradient-6"><span class="screen-icon">🎧</span></div></div></div>
       </div>
     </div>
   </div>
@@ -654,7 +655,7 @@
       <div class="feature-icon fi-green">&#9889;</div><h3>碳中和承诺</h3><p>到 2030 年，全线产品和供应链将实现 100% 碳中和。这是我们对地球的承诺。</p>
     </div>
     <div class="feature-card reveal reveal-delay-4">
-      <div class="feature-icon fi-orange">&#9968;</div><h3>无缝生态</h3><p>Yphone、YMac、YPad 和 YWatch 协同工作，带来前所未有的一体化体验。</p>
+      <div class="feature-icon fi-orange">&#9968;</div><h3>无缝生态</h3><p>Ycall、YPad 和 YVision Pro 协同工作，带来前所未有的一体化体验。</p>
     </div>
     <div class="feature-card reveal reveal-delay-5">
       <div class="feature-icon fi-red">&#10084;</div><h3>人人可用</h3><p>辅助功能内置于每一款设备，让每个人都能以自己的方式创造和连接。</p>
@@ -673,7 +674,7 @@
         <p class="section-label" style="color:#6e6e73;">YVision Pro</p>
         <h2>欢迎来到空间计算时代</h2>
         <p>将数字内容无缝融入你的物理空间。做任何事，从此有了无限可能。</p>
-        <a href="#" class="btn-primary">进一步了解</a>
+        <a href="yvision.html" class="btn-primary">进一步了解</a>
       </div>
     </div>
   </div>
@@ -682,12 +683,12 @@
 <!-- ===== PRICING ===== -->
 <section class="section section-light" id="support">
   <div class="reveal" style="text-align:center;padding:0 24px;">
-    <p class="section-label">选择你的 Yphone</p>
-    <h2 class="section-title">哪一款 Yphone 适合你？</h2>
+    <p class="section-label">选择你的 Ycall</p>
+    <h2 class="section-title">哪一款 Ycall 适合你？</h2>
   </div>
   <div class="pricing-grid">
     <div class="pricing-card reveal reveal-delay-1">
-      <div class="pricing-name">Yphone 16</div>
+      <div class="pricing-name">Ycall 2</div>
       <div class="pricing-price">¥5,999</div>
       <div class="pricing-period">起售价</div>
       <ul class="pricing-features">
@@ -696,7 +697,7 @@
       <button class="btn-primary" style="width:100%;justify-content:center;" onclick="openModal()">购买</button>
     </div>
     <div class="pricing-card popular reveal reveal-delay-2">
-      <div class="pricing-name">Yphone 16 Pro</div>
+      <div class="pricing-name">Ycall 2 Pro</div>
       <div class="pricing-price">¥7,999</div>
       <div class="pricing-period">起售价</div>
       <ul class="pricing-features">
@@ -705,7 +706,7 @@
       <button class="btn-primary" style="width:100%;justify-content:center;" onclick="openModal()">购买</button>
     </div>
     <div class="pricing-card reveal reveal-delay-3">
-      <div class="pricing-name">Yphone 16 Pro Max</div>
+      <div class="pricing-name">Ycall 2 Pro Max</div>
       <div class="pricing-price">¥9,999</div>
       <div class="pricing-period">起售价</div>
       <ul class="pricing-features">
@@ -726,11 +727,7 @@
     <div class="footer-grid">
       <div class="footer-col">
         <h4>选购及了解</h4>
-        <a href="#">Yphone</a><a href="#">YMac</a><a href="#">YPad</a><a href="#">YWatch</a><a href="#">YVision Pro</a><a href="#">YAirPods</a>
-      </div>
-      <div class="footer-col">
-        <h4>服务</h4>
-        <a href="#">YanJing Music</a><a href="#">YanJing TV+</a><a href="#">YanJing Arcade</a><a href="#">YanJing Cloud</a><a href="#">YanJing Books</a>
+        <a href="ycall.html">Ycall</a><a href="ypad.html">YPad</a><a href="yvision.html">YVision Pro</a>
       </div>
       <div class="footer-col">
         <h4>账户</h4>
@@ -757,15 +754,61 @@
 
 <!-- ===== SCRIPTS ===== -->
 <script>
+// ============================================================
+// 认证系统：登录 / 注册 / 持久化
+// ============================================================
+const REGISTER_CODE = 'yanjingpeoplehihihi';
+const TOKEN_KEY = 'yanjing_token';
+var currentToken = null;
+var currentUser = null;
+
 // ========== MODAL ==========
-function openModal() {
-  document.getElementById('modalOverlay').classList.add('active');
+function openModal(mode) {
+  mode = mode || 'register';
+  var overlay = document.getElementById('modalOverlay');
+  var regForm = document.getElementById('registerFormContent');
+  var loginForm = document.getElementById('loginFormContent');
+  var success = document.getElementById('modalSuccess');
+
+  success.classList.remove('show');
+  if (mode === 'login') {
+    regForm.classList.add('hide');
+    loginForm.classList.add('show');
+    setTimeout(function() { document.getElementById('login-account').focus(); }, 400);
+  } else {
+    regForm.classList.remove('hide');
+    loginForm.classList.remove('show');
+    setTimeout(function() { document.getElementById('reg-username').focus(); }, 400);
+  }
+  overlay.classList.add('active');
   document.body.style.overflow = 'hidden';
-  setTimeout(() => document.getElementById('inp-username').focus(), 400);
 }
+
+function switchModal(mode) {
+  var regForm = document.getElementById('registerFormContent');
+  var loginForm = document.getElementById('loginFormContent');
+  if (mode === 'login') {
+    regForm.classList.add('hide');
+    loginForm.classList.add('show');
+    document.getElementById('login-account').focus();
+  } else {
+    regForm.classList.remove('hide');
+    loginForm.classList.remove('show');
+    document.getElementById('reg-username').focus();
+  }
+}
+
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('active');
   document.body.style.overflow = '';
+}
+
+function showRegSuccess(msg, subtitle) {
+  document.getElementById('registerFormContent').classList.add('hide');
+  document.getElementById('loginFormContent').classList.remove('show');
+  document.getElementById('successTitle').textContent = msg;
+  document.getElementById('successMsg').textContent = subtitle;
+  document.getElementById('modalSuccess').classList.add('show');
 }
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -775,80 +818,6 @@ document.getElementById('modalOverlay').addEventListener('click', function(e) {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModal();
 });
-
-// ========== REGISTER CODE REALTIME CHECK ==========
-const REGISTER_CODE = 'yanjingpeoplehihihi';
-var codeInput = document.getElementById('inp-code');
-var codeIndicator = document.getElementById('codeIndicator');
-
-codeInput.addEventListener('input', function() {
-  var val = this.value.trim();
-  if (!val) {
-    codeIndicator.classList.remove('show');
-    this.classList.remove('error', 'success');
-    return;
-  }
-  codeIndicator.classList.add('show');
-  if (val === REGISTER_CODE) {
-    codeIndicator.textContent = '✓';
-    codeIndicator.style.color = '#34c759';
-    this.classList.remove('error');
-    this.classList.add('success');
-    showFieldError('err-code', '');
-    document.getElementById('hint-code').style.color = '#34c759';
-    document.getElementById('hint-code').textContent = '注册码正确 ✓';
-  } else {
-    codeIndicator.textContent = '✗';
-    codeIndicator.style.color = '#ff375f';
-    this.classList.remove('success');
-    this.classList.add('error');
-    document.getElementById('hint-code').style.color = '#86868b';
-    document.getElementById('hint-code').textContent = '注册码为必填项，没有注册码无法完成注册';
-  }
-});
-
-// ========== FORM VALIDATION ==========
-function showFieldError(id, msg) {
-  var el = document.getElementById(id);
-  if (msg) { el.textContent = msg; el.classList.add('show'); }
-  else { el.textContent = ''; el.classList.remove('show'); }
-}
-function setInputState(inputId, state) {
-  var el = document.getElementById(inputId);
-  el.classList.remove('error', 'success');
-  if (state) el.classList.add(state);
-}
-
-function validateForm() {
-  var ok = true;
-  var username = document.getElementById('inp-username').value.trim();
-  var email = document.getElementById('inp-email').value.trim();
-  var password = document.getElementById('inp-password').value;
-  var code = document.getElementById('inp-code').value.trim();
-
-  // Username
-  if (!username) { showFieldError('err-username', '请输入用户名'); setInputState('inp-username', 'error'); ok = false; }
-  else if (username.length < 2) { showFieldError('err-username', '用户名至少需要 2 个字符'); setInputState('inp-username', 'error'); ok = false; }
-  else { showFieldError('err-username', ''); setInputState('inp-username', 'success'); }
-
-  // Email
-  var emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email) { showFieldError('err-email', '请输入电子邮件'); setInputState('inp-email', 'error'); ok = false; }
-  else if (!emailReg.test(email)) { showFieldError('err-email', '邮件格式不正确'); setInputState('inp-email', 'error'); ok = false; }
-  else { showFieldError('err-email', ''); setInputState('inp-email', 'success'); }
-
-  // Password
-  if (!password) { showFieldError('err-password', '请输入密码'); setInputState('inp-password', 'error'); ok = false; }
-  else if (password.length < 8) { showFieldError('err-password', '密码至少需要 8 个字符'); setInputState('inp-password', 'error'); ok = false; }
-  else { showFieldError('err-password', ''); setInputState('inp-password', 'success'); }
-
-  // Register code
-  if (!code) { showFieldError('err-code', '注册码为必填项，不填无法注册'); setInputState('inp-code', 'error'); ok = false; }
-  else if (code !== REGISTER_CODE) { showFieldError('err-code', '注册码错误，请检查后重新输入'); setInputState('inp-code', 'error'); ok = false; }
-  else { showFieldError('err-code', ''); setInputState('inp-code', 'success'); }
-
-  return ok;
-}
 
 // ========== TOAST ==========
 function showToast(msg, type) {
@@ -864,64 +833,247 @@ function showToast(msg, type) {
   }, 3500);
 }
 
-// ========== SUBMIT ==========
+// ========== NAV 状态 ==========
+function updateNav() {
+  var loginBtn = document.getElementById('navLoginBtn');
+  var userArea = document.getElementById('navUser');
+  var userName = document.getElementById('navUserName');
+
+  if (currentToken && currentUser) {
+    loginBtn.style.display = 'none';
+    userArea.classList.add('show');
+    userName.textContent = currentUser.username || currentUser.email;
+  } else {
+    loginBtn.style.display = '';
+    userArea.classList.remove('show');
+    userName.textContent = '';
+  }
+}
+
+function saveAuth(token, user) {
+  currentToken = token;
+  currentUser = user;
+  localStorage.setItem(TOKEN_KEY, token);
+  localStorage.setItem('yanjing_user', JSON.stringify(user));
+  updateNav();
+}
+
+function logout() {
+  currentToken = null;
+  currentUser = null;
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem('yanjing_user');
+  updateNav();
+  showToast('已退出登录', 'info');
+}
+
+// ========== 注册码实时验证 ==========
+var regCodeInput = document.getElementById('reg-code');
+var regCodeIndicator = document.getElementById('codeIndicator');
+
+regCodeInput.addEventListener('input', function() {
+  var val = this.value.trim();
+  if (!val) {
+    regCodeIndicator.classList.remove('show');
+    this.classList.remove('error', 'success');
+    return;
+  }
+  regCodeIndicator.classList.add('show');
+  if (val === REGISTER_CODE) {
+    regCodeIndicator.textContent = '\u2713';
+    regCodeIndicator.style.color = '#34c759';
+    this.classList.remove('error');
+    this.classList.add('success');
+    showFieldError('err-reg-code', '');
+    document.getElementById('hint-code').style.color = '#34c759';
+    document.getElementById('hint-code').textContent = '注册码正确 \u2713';
+  } else {
+    regCodeIndicator.textContent = '\u2717';
+    regCodeIndicator.style.color = '#ff375f';
+    this.classList.remove('success');
+    this.classList.add('error');
+    document.getElementById('hint-code').style.color = '#86868b';
+    document.getElementById('hint-code').textContent = '注册码为必填项';
+  }
+});
+
+// ========== 通用表单工具 ==========
+function showFieldError(id, msg) {
+  var el = document.getElementById(id);
+  if (msg) { el.textContent = msg; el.classList.add('show'); }
+  else { el.textContent = ''; el.classList.remove('show'); }
+}
+function setInputState(inputId, state) {
+  var el = document.getElementById(inputId);
+  el.classList.remove('error', 'success');
+  if (state) el.classList.add(state);
+}
+
+// ========== 注册表单验证 ==========
+function validateRegisterForm() {
+  var ok = true;
+  var username = document.getElementById('reg-username').value.trim();
+  var email = document.getElementById('reg-email').value.trim();
+  var password = document.getElementById('reg-password').value;
+  var code = document.getElementById('reg-code').value.trim();
+
+  if (!username || username.length < 3) {
+    showFieldError('err-reg-username', '用户名至少 3 个字符，仅支持字母数字下划线');
+    setInputState('reg-username', 'error'); ok = false;
+  } else if (!/^[a-zA-Z0-9_\u4e00-\u9fff]+$/.test(username)) {
+    showFieldError('err-reg-username', '用户名含非法字符');
+    setInputState('reg-username', 'error'); ok = false;
+  } else { showFieldError('err-reg-username', ''); setInputState('reg-username', 'success'); }
+
+  var emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email) { showFieldError('err-reg-email', '请输入电子邮件'); setInputState('reg-email', 'error'); ok = false; }
+  else if (!emailReg.test(email)) { showFieldError('err-reg-email', '邮箱格式不正确'); setInputState('reg-email', 'error'); ok = false; }
+  else { showFieldError('err-reg-email', ''); setInputState('reg-email', 'success'); }
+
+  if (!password || password.length < 8) {
+    showFieldError('err-reg-password', '密码至少 8 位'); setInputState('reg-password', 'error'); ok = false;
+  } else { showFieldError('err-reg-password', ''); setInputState('reg-password', 'success'); }
+
+  if (!code) { showFieldError('err-reg-code', '请填写注册码'); setInputState('reg-code', 'error'); ok = false; }
+  else if (code !== REGISTER_CODE) { showFieldError('err-reg-code', '注册码错误'); setInputState('reg-code', 'error'); ok = false; }
+  else { showFieldError('err-reg-code', ''); setInputState('reg-code', 'success'); }
+
+  return ok;
+}
+
+// ========== 注册提交 ==========
 document.getElementById('registerForm').addEventListener('submit', async function(e) {
   e.preventDefault();
-  if (!validateForm()) return;
+  if (!validateRegisterForm()) return;
 
-  var btn = document.getElementById('submitBtn');
-  btn.classList.add('loading');
-  btn.disabled = true;
+  var btn = document.getElementById('regSubmitBtn');
+  btn.classList.add('loading'); btn.disabled = true;
 
-  var username = document.getElementById('inp-username').value.trim();
-  var email = document.getElementById('inp-email').value.trim();
-  var password = document.getElementById('inp-password').value;
-  var registerCode = document.getElementById('inp-code').value.trim();
+  var username = document.getElementById('reg-username').value.trim();
+  var email = document.getElementById('reg-email').value.trim();
+  var password = document.getElementById('reg-password').value;
+  var registrationCode = document.getElementById('reg-code').value.trim();
 
   try {
     var response = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, email, password, registerCode }),
+      body: JSON.stringify({ username, email, password, registrationCode }),
     });
     var data = await response.json();
 
     if (data.success) {
-      // 显示成功界面
-      document.getElementById('modalFormContent').classList.add('hide');
-      document.getElementById('successTitle').textContent = data.message || ('欢迎，' + username + '！');
-      document.getElementById('successMsg').textContent = '你的 YanJing ID 已成功创建，现在可以畅享所有服务。';
-      document.getElementById('modalSuccess').classList.add('show');
+      saveAuth(data.token, data.user);
+      showRegSuccess('欢迎，' + username + '！', '你的 YanJing ID 已创建成功，现在可以畅享所有服务。');
       showToast('注册成功！欢迎加入 YanJing 生态', 'success');
     } else {
-      showToast(data.message || '注册失败，请稍后重试', 'error');
-      // 根据错误类型标红对应字段
-      if (data.message && data.message.includes('邮箱')) {
-        setInputState('inp-email', 'error');
-        showFieldError('err-email', data.message);
-      } else if (data.message && data.message.includes('用户名')) {
-        setInputState('inp-username', 'error');
-        showFieldError('err-username', data.message);
+      showToast(data.message || '注册失败', 'error');
+      if (data.message && data.message.indexOf('用户名') !== -1) {
+        setInputState('reg-username', 'error');
+        showFieldError('err-reg-username', data.message);
+      } else if (data.message && data.message.indexOf('邮箱') !== -1) {
+        setInputState('reg-email', 'error');
+        showFieldError('err-reg-email', data.message);
       }
     }
   } catch (err) {
-    // 若 API 不可用（本地预览时），模拟成功效果
-    if (window.location.protocol === 'file:' || window.location.hostname === 'localhost') {
-      document.getElementById('modalFormContent').classList.add('hide');
-      document.getElementById('successTitle').textContent = '欢迎，' + username + '！';
-      document.getElementById('successMsg').textContent = '（本地预览模式）账户信息已通过验证。部署到 Vercel 后将真实写入数据库。';
-      document.getElementById('modalSuccess').classList.add('show');
-      showToast('本地预览：注册码验证通过 ✓', 'success');
-    } else {
-      showToast('网络错误，请稍后重试', 'error');
-    }
+    showToast('网络错误，请稍后再试', 'error');
   } finally {
-    btn.classList.remove('loading');
-    btn.disabled = false;
+    btn.classList.remove('loading'); btn.disabled = false;
   }
 });
 
-// ========== SCROLL REVEAL ==========
+// ========== 登录表单验证 ==========
+function validateLoginForm() {
+  var ok = true;
+  var account = document.getElementById('login-account').value.trim();
+  var password = document.getElementById('login-password').value;
+
+  if (!account) {
+    showFieldError('err-login-account', '请输入用户名或邮箱'); ok = false;
+  } else { showFieldError('err-login-account', ''); }
+
+  if (!password || password.length < 8) {
+    showFieldError('err-login-password', '密码至少 8 位'); ok = false;
+  } else { showFieldError('err-login-password', ''); }
+
+  return ok;
+}
+
+// ========== 登录提交 ==========
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  if (!validateLoginForm()) return;
+
+  var btn = document.getElementById('loginSubmitBtn');
+  btn.classList.add('loading'); btn.disabled = true;
+
+  var login = document.getElementById('login-account').value.trim();
+  var password = document.getElementById('login-password').value;
+
+  try {
+    var response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ login, password }),
+    });
+    var data = await response.json();
+
+    if (data.success) {
+      saveAuth(data.token, data.user);
+      showRegSuccess('欢迎回来！', '你已成功登录，' + (data.user.username || data.user.email));
+      showToast('登录成功', 'success');
+    } else {
+      showToast(data.message || '登录失败', 'error');
+    }
+  } catch (err) {
+    showToast('网络错误，请稍后再试', 'error');
+  } finally {
+    btn.classList.remove('loading'); btn.disabled = false;
+  }
+});
+
+// ========== 自动登录（页面加载时验证 token）==========
+async function checkAuth() {
+  var token = localStorage.getItem(TOKEN_KEY);
+  if (!token) { updateNav(); return; }
+
+  try {
+    var response = await fetch('/api/verify', {
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + token },
+    });
+    var data = await response.json();
+
+    if (data.success) {
+      currentToken = token;
+      currentUser = data.user;
+      updateNav();
+    } else {
+      // token 无效，清除
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem('yanjing_user');
+      updateNav();
+    }
+  } catch (err) {
+    // 网络错误，尝试用本地缓存的用户信息
+    var cachedUser = localStorage.getItem('yanjing_user');
+    if (cachedUser) {
+      try {
+        currentToken = token;
+        currentUser = JSON.parse(cachedUser);
+        updateNav();
+      } catch(e) {}
+    } else {
+      updateNav();
+    }
+  }
+}
+
+// 页面加载时自动检查
+checkAuth();
+
+// ========== SCROLL REVEAL & ANIMATIONS ==========
 (function() {
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
@@ -997,8 +1149,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     fObserver.observe(card);
   });
 
-  // ========== PRODUCT IMAGE AUTO-DETECT ==========
-  // 尝试加载所有产品图片，加载成功则显示图片，失败则显示 CSS fallback
+  // Product image auto-detect
   document.querySelectorAll('.product-visual .product-img').forEach(function(img) {
     if (img.complete && img.naturalWidth > 0) {
       img.parentElement.parentElement.classList.add('has-image');

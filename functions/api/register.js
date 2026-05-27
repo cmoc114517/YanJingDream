@@ -1,6 +1,7 @@
 // functions/api/register.js
-// Cloudflare Pages Function - 用户注册
-// 数据库: Cloudflare Workers KV
+// Cloudflare Pages Function - 用户注册（使用 PBKDF2 哈希 + JWT）
+
+import { hashPassword, generateJWT, validatePassword } from '../shared/auth.js';
 
 const REGISTER_CODE = 'yanjingpeoplehihihi';
 const RATE_LIMIT_WINDOW = 60;
@@ -122,7 +123,9 @@ export async function onRequestPost(context) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) return json({ success: false, message: '邮箱格式不正确', code: 'INVALID_EMAIL' }, 400);
 
-  if (password.length < 8) return json({ success: false, message: '密码至少需要 8 个字符', code: 'PASSWORD_TOO_SHORT' }, 400);
+  if (!validatePassword(password)) {
+    return json({ success: false, message: '密码至少需要 8 个字符', code: 'PASSWORD_TOO_SHORT' }, 400);
+  }
   if (password.length > 128) return json({ success: false, message: '密码不能超过 128 个字符', code: 'PASSWORD_TOO_LONG' }, 400);
   const weakPatterns = ['12345678', 'password', '123456789', 'qwertyui'];
   if (weakPatterns.some(p => password.toLowerCase() === p)) {
@@ -131,42 +134,52 @@ export async function onRequestPost(context) {
 
   // === 数据库操作 ===
   try {
-    // 检查邮箱
     const existingEmail = await KV.get(`email:${email.toLowerCase()}`);
     if (existingEmail) {
       return json({ success: false, message: '该邮箱已被注册', code: 'EMAIL_EXISTS' }, 409);
     }
 
-    // 检查用户名
     const existingUser = await KV.get(`user:${username.toLowerCase()}`);
     if (existingUser) {
       return json({ success: false, message: '该用户名已被占用', code: 'USERNAME_TAKEN' }, 409);
     }
 
+    // === 真正哈希密码 ===
+    const hashedPassword = await hashPassword(password);
+
     const timestamp = Date.now();
     const random = Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
     const userId = `uid_${timestamp}_${random}`;
     const createdAt = new Date().toISOString();
-    const hashedPassword = `[BCRYPT_NEEDED]${password.slice(0, 2)}***`;
 
     const userRecord = {
       id: userId,
       username,
       email: email.toLowerCase(),
-      password: hashedPassword,
+      passwordHash: hashedPassword,
       createdAt,
       ip: clientIP.slice(0, 10) + '***',
       verified: false,
     };
 
     await KV.put(`user:${username.toLowerCase()}`, JSON.stringify(userRecord));
-    await KV.put(`email:${email.toLowerCase()}`, userId);
+    await KV.put(`email:${email.toLowerCase()}`, username.toLowerCase());
 
     // 维护用户列表
     const listEntry = JSON.stringify({ id: userId, username, email: email.toLowerCase(), createdAt });
     await KV.put(`users:list:${userId}`, listEntry);
 
-    return json({ success: true, message: `欢迎加入 YanJing And Hundred Dream，${username}！`, userId }, 201);
+    // === 注册成功，生成 JWT（自动登录）===
+    const token = await generateJWT({ username, email: email.toLowerCase() });
+
+    return json({
+      success: true,
+      message: `欢迎加入 YanJing And Hundred Dream，${username}！`,
+      userId,
+      token,
+      expiresIn: 60 * 60 * 24 * 7,
+      user: { username, email: email.toLowerCase() }
+    }, 201);
 
   } catch (err) {
     console.error('数据库错误:', err.message);

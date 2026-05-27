@@ -1,0 +1,5 @@
+# Clean URL routing for Cloudflare Pages
+# GET /Ycall  →  serve /ycall.html  (SPA-style, preserves URL)
+/Ycall  /ycall.html  200
+/Ypad    /ypad.html    200
+/Yvision /yvision.html 200
