@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工作机会 - YanJing And Hundred Dream</title>
+<style>
+  :root { --bg-dark: #000; --bg-light: #f5f5f7; --text-dark: #1d1d1f; --text-gray: #86868b; --text-light: #f5f5f7; --accent: #0071e3; --accent-hover: #0077ed; --nav-height: 44px; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-dark); background: #fff; line-height: 1.47; overflow-x: hidden; }
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; height: var(--nav-height); background: rgba(0,0,0,0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  .nav-inner { max-width: 1024px; margin: 0 auto; height: 100%; display: flex; align-items: center; justify-content: center; gap: 40px; padding: 0 22px; }
+  .nav-logo { font-size: 17px; font-weight: 600; color: #f5f5f7; text-decoration: none; white-space: nowrap; }
+  .nav-link { font-size: 12px; color: #f5f5f7; text-decoration: none; opacity: 0.8; transition: opacity 0.3s; }
+  .nav-link:hover { opacity: 1; }
+  .nav-actions { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+  .nav-login-btn { font-size: 12px; color: #f5f5f7; opacity: 0.8; background: none; border: none; cursor: pointer; }
+  .nav-login-btn:hover { opacity: 1; }
+  .nav-user { display: none; align-items: center; gap: 8px; }
+  .nav-user.show { display: flex; }
+  .nav-user-name { font-size: 12px; color: #f5f5f7; }
+  .nav-logout-btn { font-size: 11px; color: #ff375f; background: rgba(255,55,95,0.1); border: none; padding: 4px 12px; border-radius: 14px; cursor: pointer; transition: 0.3s; }
+  .nav-logout-btn:hover { opacity: 1; background: rgba(255,55,95,0.15); }
+  .hero { background: #000; color: #fff; text-align: center; padding: 140px 24px 80px; }
+  .hero h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
+  .hero p { font-size: 21px; color: #86868b; max-width: 600px; margin: 0 auto; }
+  .content-section { max-width: 800px; margin: 0 auto; padding: 80px 24px; }
+  .content-section h2 { font-size: 32px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
+  .content-section h3 { font-size: 21px; font-weight: 600; margin-top: 40px; margin-bottom: 16px; }
+  .content-section p { font-size: 17px; color: #6e6e73; line-height: 1.8; margin-bottom: 20px; }
+  .job-card { background: #f5f5f7; border-radius: 16px; padding: 28px; margin-bottom: 20px; transition: transform 0.2s; }
+  .job-card:hover { transform: translateY(-2px); }
+  .job-card h4 { font-size: 19px; font-weight: 600; margin-bottom: 4px; }
+  .job-meta { font-size: 14px; color: var(--accent); margin-bottom: 12px; }
+  .job-meta span { margin-right: 20px; }
+  .job-card p { font-size: 15px; color: #6e6e73; line-height: 1.7; margin-bottom: 0; }
+  .dept-section { margin-bottom: 48px; }
+  .dept-section h3 { padding-bottom: 12px; border-bottom: 2px solid var(--accent); }
+  .toast-container { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  .toast { padding: 12px 24px; border-radius: 12px; color: #fff; font-size: 14px; backdrop-filter: blur(20px); opacity: 0; transform: translateY(-20px) scale(0.9); animation: toastIn 0.3s forwards; }
+  .toast.success { background: rgba(52,199,89,0.9); }
+  .toast.error { background: rgba(255,55,95,0.9); }
+  .toast.info { background: rgba(0,113,227,0.9); }
+  @keyframes toastIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+  .footer { background: #f5f5f7; padding: 60px 24px 30px; }
+  .footer-inner { max-width: 1024px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
+  .footer-col h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #6e6e73; text-decoration: none; margin-bottom: 10px; }
+  .footer-col a:hover { color: #1d1d1f; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid #d2d2d7; font-size: 12px; color: #86868b; }
+  @media (max-width: 768px) { .hero h1 { font-size: 36px; } .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="toast-container" id="toastContainer"></div>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">YanJing & Hundred Dream</a>
+    <a href="ycall.html" class="nav-link">Ycall</a>
+    <a href="ypad.html" class="nav-link">YPad</a>
+    <a href="yvision.html" class="nav-link">YVision</a>
+    <div class="nav-actions">
+      <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
+      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" onclick="logout()">退出</button></div>
+    </div>
+  </div>
+</nav>
+<section class="hero"><h1>工作机会</h1><p>加入 YanJing，与 12,000 名创新者一起改变世界。</p></section>
+<section class="content-section">
+  <h2>为什么选择 YanJing？</h2>
+  <p>自 2000 年创立以来，YanJing 始终相信：最好的工作产生于最自由的环境。我们不提供"996"或僵化的 KPI——我们提供有意义的问题、顶尖的同事和充分的创造空间。在这里，你的工作将被全球数亿用户使用，你的想法有机会重新定义整个行业。</p>
+  <p>我们为员工提供：具有行业竞争力的薪酬和股权激励、弹性工作制、每年 20 天带薪年假、全额覆盖的六险二金、免费健康餐饮、持续学习的培训和发展预算、以及与全球顶尖团队跨文化协作的机会。深圳总部设有健身房、游泳池、托儿中心和医疗诊所。</p>
+  <p>以下为当前热招岗位——你也可以将简历发送至 <strong>careers@yanjingdream.com</strong>，我们的招聘团队将为你匹配最合适的职位。</p>
+
+  <div class="dept-section">
+    <h3>人工智能 &amp; 机器学习</h3>
+    <div class="job-card">
+      <h4>资深大模型研究员</h4>
+      <div class="job-meta"><span>北京</span><span>人工智能研究院</span><span>全职</span></div>
+      <p>负责千亿参数大语言模型的预训练、对齐和优化研究。要求：博士学历，在 NLP/CV 顶会发表过论文，有大规模分布式训练经验。精通 PyTorch/JAX，熟悉 Transformer 架构。有 GPT/LLaMA 等开源模型调优经验者优先。薪资范围：80-150 万/年 + 股权。</p>
+    </div>
+    <div class="job-card">
+      <h4>端侧 AI 推理工程师</h4>
+      <div class="job-meta"><span>深圳</span><span>芯片与系统</span><span>全职</span></div>
+      <p>设计并优化 YanAI 端侧推理引擎，在 Y1 Pro 芯片上实现高效的模型部署。要求：硕士及以上学历，精通 C++/Metal/OpenCL，有移动端 AI 部署经验（Core ML/TensorFlow Lite/ONNX Runtime）。对量化、剪枝、蒸馏等模型压缩技术有深入理解。薪资范围：50-90 万/年 + 股权。</p>
+    </div>
+    <div class="job-card">
+      <h4>计算机视觉算法工程师</h4>
+      <div class="job-meta"><span>深圳</span><span>计算摄影</span><span>全职</span></div>
+      <p>为下一代 Ycall 和 YVision Pro 研发计算摄影与空间感知算法。方向包括：多帧合成、语义分割、深度估计、3D 重建。要求：硕士及以上学历，扎实的 CV 基础，熟练使用 Python/C++。有手机或 AR/VR 相机算法经验者优先。薪资范围：45-80 万/年 + 股权。</p>
+    </div>
+  </div>
+
+  <div class="dept-section">
+    <h3>软件工程</h3>
+    <div class="job-card">
+      <h4>YanOS 系统架构师</h4>
+      <div class="job-meta"><span>深圳</span><span>操作系统</span><span>全职</span></div>
+      <p>参与 YanOS 6 核心架构的设计与演进，重点负责内核性能优化、进程调度和内存管理子系统。要求：8 年以上系统软件开发经验，深刻理解操作系统原理，有 Linux/BSD 内核开发背景。精通 C/C++，熟悉 ARM 架构。在 OS 领域有技术影响力（如内核贡献、技术演讲）者优先。薪资范围：100-180 万/年 + 股权。</p>
+    </div>
+    <div class="job-card">
+      <h4>高级前端工程师</h4>
+      <div class="job-meta"><span>深圳/北京/上海</span><span>YanCloud</span><span>全职</span></div>
+      <p>负责 YanCloud Web 端产品的前端架构设计和核心模块开发。技术栈：React/Next.js + TypeScript + Tailwind。要求：5 年以上前端经验，有大型 Web 应用架构经验，对性能优化、可访问性和设计系统有深入理解。英文读写流利。薪资范围：40-70 万/年 + 股权。</p>
+    </div>
+    <div class="job-card">
+      <h4>后端开发工程师（Go/Java）</h4>
+      <div class="job-meta"><span>深圳/北京</span><span>云服务</span><span>全职</span></div>
+      <p>设计和开发支撑数亿用户的高并发云服务系统。方向包括：分布式存储、消息队列、API 网关、服务治理。要求：3 年以上后端经验，精通 Go 或 Java，熟悉 Kubernetes/Docker，有大规模分布式系统实战经验。薪资范围：35-65 万/年 + 股权。</p>
+    </div>
+  </div>
+
+  <div class="dept-section">
+    <h3>硬件工程</h3>
+    <div class="job-card">
+      <h4>芯片设计工程师（数字前端）</h4>
+      <div class="job-meta"><span>上海</span><span>芯片设计中心</span><span>全职</span></div>
+      <p>参与下一代 Y 系列芯片的数字前端设计与验证。方向：SoC 架构、NPU、ISP。要求：硕士及以上学历，电子/微电子相关专业，精通 Verilog/SystemVerilog，熟悉 ASIC 设计流程。有 AI 加速器或图像处理芯片 tape-out 经验者优先。薪资范围：50-100 万/年 + 股权。</p>
+    </div>
+    <div class="job-card">
+      <h4>光学工程师</h4>
+      <div class="job-meta"><span>深圳</span><span>YVision</span><span>全职</span></div>
+      <p>为下一代空间计算设备设计和优化光学模组，包括 Pancake 透镜、波导显示和眼动追踪系统。要求：硕士及以上学历，光学工程相关专业，精通 Zemax/Code V，有 AR/VR 光学设计经验。薪资范围：45-85 万/年 + 股权。</p>
+    </div>
+  </div>
+
+  <div class="dept-section">
+    <h3>设计 &amp; 产品</h3>
+    <div class="job-card">
+      <h4>高级工业设计师</h4>
+      <div class="job-meta"><span>深圳</span><span>设计工作室</span><span>全职</span></div>
+      <p>与工程团队紧密协作，定义下一代 YanJing 产品的外观、手感和人机交互方式。要求：5 年以上消费电子产品工业设计经验，出色的手绘和 3D 建模能力（Rhino/SolidWorks/Fusion 360），对材料、工艺和 CMF 有深刻理解。需要提供作品集。薪资范围：50-90 万/年 + 股权。</p>
+    </div>
+    <div class="job-card">
+      <h4>资深产品经理 — AI 方向</h4>
+      <div class="job-meta"><span>深圳/北京</span><span>YanAI</span><span>全职</span></div>
+      <p>定义 YanAI 大模型平台的产品策略和路线图，深入理解开发者需求，推动 API、SDK 和工具链的迭代。要求：5 年以上产品经验，有 AI/ML 平台或开发者工具产品背景，技术理解力强。薪资范围：60-100 万/年 + 股权。</p>
+    </div>
+  </div>
+
+  <div class="dept-section">
+    <h3>运营 &amp; 职能</h3>
+    <div class="job-card">
+      <h4>供应链可持续发展经理</h4>
+      <div class="job-meta"><span>深圳</span><span>供应链</span><span>全职</span></div>
+      <p>推动 YanJing 供应链碳中和目标的实现，与全球 200+ 核心供应商合作推进清洁能源转型、材料循环利用和劳工权益保障。要求：5 年以上供应链管理或可持续发展相关经验，熟悉 ESG 报告标准（GRI/SASB），英文流利。薪资范围：40-70 万/年 + 股权。</p>
+    </div>
+    <div class="job-card">
+      <h4>法务经理 — 数据隐私方向</h4>
+      <div class="job-meta"><span>深圳</span><span>法务与合规</span><span>全职</span></div>
+      <p>负责 YanJing 全球数据隐私合规体系的建设与维护，跟踪 GDPR、中国《个人信息保护法》、加州 CCPA 等法规动态，为产品团队提供隐私合规建议。要求：法学硕士及以上，5 年以上数据隐私法律经验，持有 CIPP/E 或 CIPM 认证者优先。英文流利。薪资范围：45-80 万/年 + 股权。</p>
+    </div>
+  </div>
+
+  <h2>校园招聘</h2>
+  <p>YanJing 每年秋季启动全球校园招聘计划"YanFuture"，面向应届本科、硕士和博士毕业生。2026 年度计划招聘约 500 名应届生，覆盖技术、设计、产品、运营等全部部门。实习生计划全年滚动进行，暑期实习项目每年 6-9 月，提供有竞争力的实习薪资和转正机会。</p>
+  <p>申请方式：发送简历至 <strong>campus@yanjingdream.com</strong>，或在每年 9 月至 11 月关注全国各大高校的 YanJing 校园宣讲会。</p>
+</section>
+<footer class="footer"><div class="footer-inner"><div class="footer-grid"><div class="footer-col"><h4>选购及了解</h4><a href="ycall.html">Ycall</a><a href="ypad.html">YPad</a><a href="yvision.html">YVision Pro</a></div><div class="footer-col"><h4>关于 YanJing</h4><a href="about.html">公司介绍</a><a href="careers.html">工作机会</a><a href="news.html">新闻中心</a><a href="investors.html">投资者关系</a></div><div class="footer-col"><h4>价值观</h4><a href="accessibility.html">辅助功能</a><a href="environment.html">环境责任</a><a href="privacy.html">隐私保护</a><a href="supplier.html">供应商责任</a></div><div class="footer-col"><h4>账户</h4><a href="#" onclick="openModal()">创建 YanJing ID</a></div></div><div class="footer-bottom"><span>Copyright &copy; 2026 YanJing And Hundred Dream Inc.</span></div></div></footer>
+<script>
+var TOKEN_KEY='yanjing_token',currentToken=null,currentUser=null;
+function showToast(m,t){var c=document.getElementById('toastContainer'),e=document.createElement('div');e.className='toast '+t;e.textContent=m;c.appendChild(e);setTimeout(function(){e.style.opacity='0';e.style.transform='translateY(-20px)';setTimeout(function(){if(e.parentNode)e.parentNode.removeChild(e)},300)},3000)}
+function updateNav(){var l=document.getElementById('navLoginBtn'),u=document.getElementById('navUser'),n=document.getElementById('navUserName');if(currentToken&&currentUser){l.style.display='none';u.classList.add('show');n.textContent=currentUser.username||currentUser.email}else{l.style.display='';u.classList.remove('show');n.textContent=''}}
+function saveAuth(t,u){currentToken=t;currentUser=u;localStorage.setItem(TOKEN_KEY,t);localStorage.setItem('yanjing_user',JSON.stringify(u));updateNav()}
+function logout(){currentToken=null;currentUser=null;localStorage.removeItem(TOKEN_KEY);localStorage.removeItem('yanjing_user');updateNav();showToast('已退出登录','info')}
+async function openModal(m){window.location.href='index.html#'+(m==='login'?'login':'register')}
+async function checkAuth(){var t=localStorage.getItem(TOKEN_KEY);if(!t){updateNav();return}try{var r=await fetch('/api/verify',{headers:{'Authorization':'Bearer '+t}});var d=await r.json();if(d.success){currentToken=t;currentUser=d.user;updateNav()}else{localStorage.removeItem(TOKEN_KEY);localStorage.removeItem('yanjing_user');updateNav()}}catch(e){var cu=localStorage.getItem('yanjing_user');if(cu){try{currentToken=t;currentUser=JSON.parse(cu);updateNav()}catch(e2){}}else updateNav()}}
+checkAuth();
+</script>
+</body>
+</html>

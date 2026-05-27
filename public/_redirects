@@ -3,3 +3,13 @@
 /Ycall  /ycall.html  200
 /Ypad    /ypad.html    200
 /Yvision /yvision.html 200
+
+# Navigation subpages
+/About        /about.html        200
+/News         /news.html         200
+/Careers      /careers.html      200
+/Investors    /investors.html    200
+/Accessibility /accessibility.html 200
+/Environment  /environment.html  200
+/Privacy      /privacy.html      200
+/Supplier     /supplier.html     200

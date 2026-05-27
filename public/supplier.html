@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>供应商责任 - YanJing And Hundred Dream</title>
+<style>
+  :root { --bg-dark: #000; --bg-light: #f5f5f7; --text-dark: #1d1d1f; --text-gray: #86868b; --text-light: #f5f5f7; --accent: #0071e3; --accent-hover: #0077ed; --nav-height: 44px; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-dark); background: #fff; line-height: 1.47; overflow-x: hidden; }
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; height: var(--nav-height); background: rgba(0,0,0,0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  .nav-inner { max-width: 1024px; margin: 0 auto; height: 100%; display: flex; align-items: center; justify-content: center; gap: 40px; padding: 0 22px; }
+  .nav-logo { font-size: 17px; font-weight: 600; color: #f5f5f7; text-decoration: none; white-space: nowrap; }
+  .nav-link { font-size: 12px; color: #f5f5f7; text-decoration: none; opacity: 0.8; transition: opacity 0.3s; }
+  .nav-link:hover { opacity: 1; }
+  .nav-actions { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+  .nav-login-btn { font-size: 12px; color: #f5f5f7; opacity: 0.8; background: none; border: none; cursor: pointer; }
+  .nav-login-btn:hover { opacity: 1; }
+  .nav-user { display: none; align-items: center; gap: 8px; }
+  .nav-user.show { display: flex; }
+  .nav-user-name { font-size: 12px; color: #f5f5f7; }
+  .nav-logout-btn { font-size: 11px; color: #ff375f; background: rgba(255,55,95,0.1); border: none; padding: 4px 12px; border-radius: 14px; cursor: pointer; transition: 0.3s; }
+  .nav-logout-btn:hover { opacity: 1; background: rgba(255,55,95,0.15); }
+  .hero { background: #000; color: #fff; text-align: center; padding: 140px 24px 80px; }
+  .hero h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
+  .hero p { font-size: 21px; color: #86868b; max-width: 600px; margin: 0 auto; }
+  .content-section { max-width: 800px; margin: 0 auto; padding: 80px 24px; }
+  .content-section h2 { font-size: 32px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
+  .content-section h3 { font-size: 21px; font-weight: 600; margin-top: 40px; margin-bottom: 16px; color: #1d1d1f; }
+  .content-section p { font-size: 17px; color: #6e6e73; line-height: 1.8; margin-bottom: 20px; }
+  .content-section ul { list-style: none; padding: 0; margin-bottom: 30px; }
+  .content-section ul li { font-size: 17px; color: #6e6e73; line-height: 1.8; padding: 6px 0; padding-left: 24px; position: relative; }
+  .content-section ul li::before { content: "·"; position: absolute; left: 8px; color: var(--accent); font-weight: bold; }
+  .standard-card { background: #f5f5f7; border-radius: 16px; padding: 28px; margin-bottom: 20px; }
+  .standard-card h4 { font-size: 19px; font-weight: 600; margin-bottom: 10px; }
+  .standard-card p { font-size: 15px; color: #6e6e73; line-height: 1.7; margin-bottom: 0; }
+  .toast-container { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  .toast { padding: 12px 24px; border-radius: 12px; color: #fff; font-size: 14px; backdrop-filter: blur(20px); opacity: 0; transform: translateY(-20px) scale(0.9); animation: toastIn 0.3s forwards; }
+  .toast.success { background: rgba(52,199,89,0.9); }
+  .toast.error { background: rgba(255,55,95,0.9); }
+  .toast.info { background: rgba(0,113,227,0.9); }
+  @keyframes toastIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+  .footer { background: #f5f5f7; padding: 60px 24px 30px; }
+  .footer-inner { max-width: 1024px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
+  .footer-col h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #6e6e73; text-decoration: none; margin-bottom: 10px; }
+  .footer-col a:hover { color: #1d1d1f; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid #d2d2d7; font-size: 12px; color: #86868b; }
+  @media (max-width: 768px) { .hero h1 { font-size: 36px; } .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="toast-container" id="toastContainer"></div>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">YanJing & Hundred Dream</a>
+    <a href="ycall.html" class="nav-link">Ycall</a>
+    <a href="ypad.html" class="nav-link">YPad</a>
+    <a href="yvision.html" class="nav-link">YVision</a>
+    <div class="nav-actions">
+      <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
+      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" onclick="logout()">退出</button></div>
+    </div>
+  </div>
+</nav>
+<section class="hero"><h1>供应商责任</h1><p>我们的产品由全球数百家供应商共同打造。我们要求每一位合作伙伴都达到最高的责任标准。</p></section>
+<section class="content-section">
+  <h2>我们的供应链理念</h2>
+  <p>YanJing 的供应链遍布全球 30 多个国家和地区，涉及数千家各级供应商。我们深知，供应链的每一个环节都代表着 YanJing 的价值观。一件 Ycall 在工厂里被什么人、在什么条件下制造出来，与它在发布会上被展示的炫酷程度同样重要。</p>
+  <p>COO Baiwan 自公司创立以来一直主管供应链管理，他制定的原则简单而坚定："没有一家供应商的报价足够便宜，可以让我们忽视对人和环境的伤害。"二十多年来，这一原则从未妥协。</p>
+
+  <h2>《供应商行为准则》四大支柱</h2>
+  <p>YanJing 的《供应商行为准则》（Supplier Code of Conduct）是强制性的合同条款，所有供应商——从提供芯片的半导体巨头到提供包装盒的纸品工厂——都必须签署并遵守。违反准则可能导致订单暂停、合同终止，甚至永久取消供应商资格。2025 年，共 14 家供应商因严重违规被取消资格。</p>
+
+  <div class="standard-card">
+    <h4>一、劳工与人权</h4>
+    <p><strong>禁止强迫劳动。</strong>包括监狱劳动、抵债劳动和人口贩卖。所有工作必须是自愿的。供应商必须允许工人在合理通知后自由离职。</p>
+    <p><strong>禁止童工。</strong>供应商不得雇用未满 15 周岁（或当地法律规定的最低年龄，以较高者为准）的工人。青少年工人（15-18 岁）仅可在非危险岗位从事不超过法定工时的工作。</p>
+    <p><strong>工作时间。</strong>每周工作时间不得超过 60 小时，包括加班。每连续工作 7 天至少休息 1 天。加班必须是自愿的，且加班费必须按法律规定足额支付。2025 年审计发现，工作时间超限是供应商最常见的合规问题（占违规总数的 34%），YanJing 已要求相关供应商实施工时管理系统并接受每月抽查。</p>
+    <p><strong>工资与福利。</strong>工资不得低于当地法定最低工资标准（YanJing 鼓励供应商支付生活工资，即高于最低工资的能够满足基本生活需求的工资水平），加班费必须按法定标准支付。严禁将工资作为惩罚手段。供应商必须依法为员工缴纳社会保险。</p>
+    <p><strong>结社自由。</strong>供应商必须尊重工人的结社自由和集体谈判权。在结社自由受限的国家，供应商必须为工人提供替代性的沟通和申诉渠道。</p>
+    <p><strong>反歧视与反骚扰。</strong>禁止基于种族、肤色、宗教、性别、性取向、年龄、残疾、国籍、婚姻状况或政治立场的歧视或骚扰。2024 年，YanJing 在供应商范围内推出了匿名举报热线，工人可以通过电话、短信或网页直接向 YanJing 投诉，无需通过厂方管理层。</p>
+  </div>
+
+  <div class="standard-card">
+    <h4>二、健康与安全</h4>
+    <p><strong>职业安全。</strong>供应商必须识别和评估工作场所的安全风险，采取适当的防护措施。涉及化学品、机械、电气、高空作业的岗位必须有充足的个人防护装备（PPE）。YanJing 在每项安全审计中检查 200 多个细项。</p>
+    <p><strong>应急准备。</strong>所有工厂必须有明确的消防疏散方案和定期的消防演习记录。消防通道必须保持畅通，消防设施必须定期检测。宿舍和车间必须分开。2022 年，我们在供应链审计中新增了建筑结构安全评估，确保工厂建筑本身符合当地建筑标准。</p>
+    <p><strong>职业健康。</strong>供应商必须为接触有害物质的工人提供定期健康检查，并为所有工人提供安全的饮用水和卫生设施。在高温工作环境中，必须有降温措施和防暑饮品供应。</p>
+    <p><strong>生活条件。</strong>如果供应商提供员工宿舍，居住空间必须满足最低面积标准（人均不少于 3.5 平方米），通风良好，有独立的浴室和卫生间。</p>
+  </div>
+
+  <div class="standard-card">
+    <h4>三、环境保护</h4>
+    <p><strong>环境许可。</strong>供应商必须取得所有必要的环境许可和批文，并按要求进行定期监测和报告。</p>
+    <p><strong>废弃物管理。</strong>危险废弃物必须按照法规要求进行标识、储存、运输和处理。禁止非法倾倒和焚烧。YanJing 鼓励供应商采用废弃物源头减量技术。</p>
+    <p><strong>水资源管理。</strong>供应商必须监控用水量，处理废水达到排放标准。位于水资源紧张地区的供应商需制定节水计划。</p>
+    <p><strong>化学品管理。</strong>所有化学品必须有安全数据表（SDS），危险化学品储存区域必须有防泄漏措施和应急处理预案。YanJing 的《受管制物质规范》比 REACH 标准更严格。</p>
+    <p><strong>气候变化。</strong>从 2022 年起，YanJing 要求所有核心供应商报告年度温室气体排放数据，并制定减排目标。我们为供应商提供清洁能源转型的技术咨询和融资支持。截至 2025 年，156 家供应商已承诺 100% 使用清洁能源。</p>
+  </div>
+
+  <div class="standard-card">
+    <h4>四、商业道德</h4>
+    <p><strong>反腐败。</strong>任何形式的贿赂、回扣、勒索或贪污都是被严格禁止的。供应商不得向 YanJing 员工提供礼品（价值超过 200 元人民币的任何物品）、款待或差旅安排。</p>
+    <p><strong>利益冲突。</strong>供应商必须披露与 YanJing 员工之间的任何亲属关系或财务利益关系。</p>
+    <p><strong>知识产权。</strong>供应商必须尊重 YanJing 和第三方的知识产权。未经授权，不得复制、泄露或转让 YanJing 的技术资料、设计图纸和商业秘密。</p>
+    <p><strong>负责任采购。</strong>供应商必须确保其使用的矿物原材料（特别是锡、钽、钨、金——即"冲突矿物"）不来自为武装冲突提供资金的矿源。YanJing 每年对锡、钽、钨、金和钴的供应链进行溯源审计，目前已追溯至冶炼厂/精炼厂层面，共有 253 家冶炼厂进入我们的合格清单。</p>
+    <p><strong>举报保护。</strong>供应商必须建立举报机制，保护举报人不受任何形式的打击报复。YanJing 的全球举报热线接收来自供应商员工的匿名投诉。</p>
+  </div>
+
+  <h2>供应商审计与合规</h2>
+  <p>YanJing 建立了行业最严格的供应商合规审计体系：</p>
+  <h3>分层审计制度</h3>
+  <p>所有核心供应商每年至少接受一次全面的现场审计。审计团队由 YanJing 内部的供应链合规专员和独立的第三方审计机构（SGS、BSI 等）共同组成。审计覆盖劳工、安全、环保和道德四大领域，每个领域包含 50-200 个不等的检查项。高风险供应商（包括过往有违规记录的、新加入的、位于高风险地区的）每季度审计一次。2025 年度共完成 1,247 次供应商审计，包括 328 次突击审计。</p>
+  <h3>审计发现与改进</h3>
+  <p>2025 年度审计中发现的主要问题类型：工作时间超限（34%）、职业安全培训不足（28%）、化学品管理不规范（22%）、工资记录不完整（16%）。YanJing 采取"发现→纠正→验证"的闭环管理模式：对每一处违规，供应商必须在 30 天内提交纠正行动计划（CAP），并在 90 天内完成整改。YanJing 进行跟踪审计验证整改结果。对于严重违规或拒不整改的供应商，我们毫不犹豫地终止合作——2025 年度共有 14 家供应商被取消资格。</p>
+  <h3>供应链透明度</h3>
+  <p>YanJing 每年发布《供应商责任进展报告》，公开披露供应商合规数据。报告中列出了核心供应商名单（含各级供应商）、审计结果概况、主要违规类型分析和纠正情况。自 2018 年起，我们还公布了冶炼厂/精炼厂名单。我们相信透明度是对合作伙伴最有效的激励机制。</p>
+
+  <h2>能力建设与赋能</h2>
+  <p>惩罚不是目的，提升才是目标。YanJing 设立了供应商能力建设项目，为供应商提供免费培训：劳工权益管理课程（与中国劳动和社会保障科学研究院合作开发）；职业健康安全管理体系（ISO 45001）实施指导；环境管理体系（ISO 14001）和清洁生产技术培训；工人权益教育项目——直接面向供应商员工开展。2025 年，共有超过 80 万人次参与了这些培训项目。</p>
+  <p>举报与沟通：如果你发现 YanJing 供应链中可能存在的违规行为，请通过以下渠道联系我们：<strong>supplier-compliance@yanjingdream.com</strong></p>
+</section>
+<footer class="footer"><div class="footer-inner"><div class="footer-grid"><div class="footer-col"><h4>选购及了解</h4><a href="ycall.html">Ycall</a><a href="ypad.html">YPad</a><a href="yvision.html">YVision Pro</a></div><div class="footer-col"><h4>关于 YanJing</h4><a href="about.html">公司介绍</a><a href="careers.html">工作机会</a><a href="news.html">新闻中心</a><a href="investors.html">投资者关系</a></div><div class="footer-col"><h4>价值观</h4><a href="accessibility.html">辅助功能</a><a href="environment.html">环境责任</a><a href="privacy.html">隐私保护</a><a href="supplier.html">供应商责任</a></div><div class="footer-col"><h4>账户</h4><a href="#" onclick="openModal()">创建 YanJing ID</a></div></div><div class="footer-bottom"><span>Copyright &copy; 2026 YanJing And Hundred Dream Inc.</span></div></div></footer>
+<script>
+var TOKEN_KEY='yanjing_token',currentToken=null,currentUser=null;
+function showToast(m,t){var c=document.getElementById('toastContainer'),e=document.createElement('div');e.className='toast '+t;e.textContent=m;c.appendChild(e);setTimeout(function(){e.style.opacity='0';e.style.transform='translateY(-20px)';setTimeout(function(){if(e.parentNode)e.parentNode.removeChild(e)},300)},3000)}
+function updateNav(){var l=document.getElementById('navLoginBtn'),u=document.getElementById('navUser'),n=document.getElementById('navUserName');if(currentToken&&currentUser){l.style.display='none';u.classList.add('show');n.textContent=currentUser.username||currentUser.email}else{l.style.display='';u.classList.remove('show');n.textContent=''}}
+function saveAuth(t,u){currentToken=t;currentUser=u;localStorage.setItem(TOKEN_KEY,t);localStorage.setItem('yanjing_user',JSON.stringify(u));updateNav()}
+function logout(){currentToken=null;currentUser=null;localStorage.removeItem(TOKEN_KEY);localStorage.removeItem('yanjing_user');updateNav();showToast('已退出登录','info')}
+async function openModal(m){window.location.href='index.html#'+(m==='login'?'login':'register')}
+async function checkAuth(){var t=localStorage.getItem(TOKEN_KEY);if(!t){updateNav();return}try{var r=await fetch('/api/verify',{headers:{'Authorization':'Bearer '+t}});var d=await r.json();if(d.success){currentToken=t;currentUser=d.user;updateNav()}else{localStorage.removeItem(TOKEN_KEY);localStorage.removeItem('yanjing_user');updateNav()}}catch(e){var cu=localStorage.getItem('yanjing_user');if(cu){try{currentToken=t;currentUser=JSON.parse(cu);updateNav()}catch(e2){}}else updateNav()}}
+checkAuth();
+</script>
+</body>
+</html>

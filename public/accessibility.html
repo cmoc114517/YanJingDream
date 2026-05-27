@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>辅助功能 - YanJing And Hundred Dream</title>
+<style>
+  :root { --bg-dark: #000; --bg-light: #f5f5f7; --text-dark: #1d1d1f; --text-gray: #86868b; --text-light: #f5f5f7; --accent: #0071e3; --accent-hover: #0077ed; --nav-height: 44px; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-dark); background: #fff; line-height: 1.47; overflow-x: hidden; }
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; height: var(--nav-height); background: rgba(0,0,0,0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  .nav-inner { max-width: 1024px; margin: 0 auto; height: 100%; display: flex; align-items: center; justify-content: center; gap: 40px; padding: 0 22px; }
+  .nav-logo { font-size: 17px; font-weight: 600; color: #f5f5f7; text-decoration: none; white-space: nowrap; }
+  .nav-link { font-size: 12px; color: #f5f5f7; text-decoration: none; opacity: 0.8; transition: opacity 0.3s; }
+  .nav-link:hover { opacity: 1; }
+  .nav-actions { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+  .nav-login-btn { font-size: 12px; color: #f5f5f7; opacity: 0.8; background: none; border: none; cursor: pointer; }
+  .nav-login-btn:hover { opacity: 1; }
+  .nav-user { display: none; align-items: center; gap: 8px; }
+  .nav-user.show { display: flex; }
+  .nav-user-name { font-size: 12px; color: #f5f5f7; }
+  .nav-logout-btn { font-size: 11px; color: #ff375f; background: rgba(255,55,95,0.1); border: none; padding: 4px 12px; border-radius: 14px; cursor: pointer; transition: 0.3s; }
+  .nav-logout-btn:hover { opacity: 1; background: rgba(255,55,95,0.15); }
+  .hero { background: #000; color: #fff; text-align: center; padding: 140px 24px 80px; }
+  .hero h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
+  .hero p { font-size: 21px; color: #86868b; max-width: 600px; margin: 0 auto; }
+  .content-section { max-width: 800px; margin: 0 auto; padding: 80px 24px; }
+  .content-section h2 { font-size: 32px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
+  .content-section h3 { font-size: 21px; font-weight: 600; margin-top: 40px; margin-bottom: 16px; color: #1d1d1f; }
+  .content-section p { font-size: 17px; color: #6e6e73; line-height: 1.8; margin-bottom: 20px; }
+  .content-section ul { list-style: none; padding: 0; margin-bottom: 30px; }
+  .content-section ul li { font-size: 17px; color: #6e6e73; line-height: 1.8; padding: 6px 0; padding-left: 24px; position: relative; }
+  .content-section ul li::before { content: "·"; position: absolute; left: 8px; color: var(--accent); font-weight: bold; }
+  .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 30px 0; }
+  .feature-card { background: #f5f5f7; border-radius: 16px; padding: 24px; }
+  .feature-card h4 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+  .feature-card p { font-size: 15px; color: #6e6e73; line-height: 1.6; margin-bottom: 0; }
+  .toast-container { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  .toast { padding: 12px 24px; border-radius: 12px; color: #fff; font-size: 14px; backdrop-filter: blur(20px); opacity: 0; transform: translateY(-20px) scale(0.9); animation: toastIn 0.3s forwards; }
+  .toast.success { background: rgba(52,199,89,0.9); }
+  .toast.error { background: rgba(255,55,95,0.9); }
+  .toast.info { background: rgba(0,113,227,0.9); }
+  @keyframes toastIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+  .footer { background: #f5f5f7; padding: 60px 24px 30px; }
+  .footer-inner { max-width: 1024px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
+  .footer-col h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #6e6e73; text-decoration: none; margin-bottom: 10px; }
+  .footer-col a:hover { color: #1d1d1f; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid #d2d2d7; font-size: 12px; color: #86868b; }
+  @media (max-width: 768px) { .hero h1 { font-size: 36px; } .feature-grid { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="toast-container" id="toastContainer"></div>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">YanJing & Hundred Dream</a>
+    <a href="ycall.html" class="nav-link">Ycall</a>
+    <a href="ypad.html" class="nav-link">YPad</a>
+    <a href="yvision.html" class="nav-link">YVision</a>
+    <div class="nav-actions">
+      <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
+      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" onclick="logout()">退出</button></div>
+    </div>
+  </div>
+</nav>
+<section class="hero"><h1>辅助功能</h1><p>科技应该为每一个人服务。我们致力于让 YanJing 的每一款产品都对所有人开放、可用。</p></section>
+<section class="content-section">
+  <h2>我们的承诺</h2>
+  <p>自 2000 年创立以来，YanJing 始终将无障碍设计视为产品哲学的核心部分，而非事后补救。"辅助功能"这个词甚至不够准确——我们更愿意称之为"人人可用"。因为让视障用户能用的功能，也会让驾驶中的司机受益匪浅；让听力障碍者能用的设计，同样让嘈杂环境中的每一个人受益。</p>
+  <p>YanJing 的所有产品都遵循 WCAG 2.2 AA 级无障碍标准。从硬件设计到操作系统的每一个交互细节，我们与残障人士社区紧密合作，确保辅助功能不是"特殊需求"，而是"默认设计"。</p>
+
+  <h2>视觉辅助</h2>
+  <h3>旁白（VoiceOver）</h3>
+  <p>YanJing 的旁白功能是全球最先进的屏幕阅读器之一，深度集成在 YanOS 的每一层——从系统界面到第三方应用。与传统的屏幕阅读器不同，YanJing 旁白支持 38 种语言，能够智能识别界面元素类型并自动调整描述方式。2025 年的用户调查显示，92% 的视障 Ycall 用户将旁白评为"不可或缺"的功能。</p>
+  <h3>放大器</h3>
+  <p>利用 Ycall 和 YPad 的高分辨率摄像头和 AI 图像处理，放大器功能可以将现实世界中的文字放大至原来的 20 倍，并支持实时文字识别（OCR）和语音朗读。无论是阅读餐厅菜单、药品说明书还是公交站牌，只需抬起设备即可。</p>
+  <h3>朗读内容</h3>
+  <p>YanOS 内置的朗读内容功能支持网页、文档、PDF 和电子书的自然语音朗读，提供 12 种可选语音。通过 YanAI 的语义理解能力，朗读内容能智能跳过广告和导航元素，只朗读用户真正关心的内容。</p>
+  <h3>动态文字大小 &amp; 显示调节</h3>
+  <p>支持从 10pt 到 96pt 的无极文字缩放，涵盖所有系统界面和大多数第三方应用。同时提供粗体文本、按钮形状、降低透明度、增强对比度、智能色彩反转等多种显示调节选项，满足不同程度的低视力需求。</p>
+
+  <h2>听觉辅助</h2>
+  <h3>实时字幕</h3>
+  <p>借助 YanAI 的端侧语音识别能力，YanJing 设备可以为任何音频内容生成实时字幕——包括系统通知、来电、FaceTime 视频通话、播客和视频内容。完全在设备端处理，无需联网，不泄露隐私。</p>
+  <h3>助听器兼容</h3>
+  <p>所有 Ycall 和 YPad 设备均获得 M3/T4 级别的助听器兼容认证。Ycall 19 系列还内置了专门的助听器模式，可智能优化音频输出曲线，配合助听器的远程线圈拾取声音信号。</p>
+  <h3>声音识别</h3>
+  <p>Ycall 可以持续监听并识别 14 种特定声音——包括火灾警报、门铃、婴儿啼哭、汽车鸣笛、玻璃破碎等。当检测到这些声音时，设备会通过闪光灯和振动通知用户。这项功能由设备端 AI 驱动，所有处理均在本地完成。</p>
+
+  <h2>运动与肢体辅助</h2>
+  <h3>辅助触控（AssistiveTouch）</h3>
+  <p>为无法触碰屏幕或使用物理按钮的用户设计。通过一个可自定义的悬浮虚拟按钮，用户可以用单指点击、手势甚至头部运动来控制设备。支持自定义手势宏——一个手势可以替代多次点击。YVision Pro 的眼动追踪和手势控制进一步扩展了辅助触控的边界。</p>
+  <h3>语音控制</h3>
+  <p>YanOS 6 的语音控制功能允许用户完全通过语音操作设备，包括打开应用、滚动页面、点击按钮、编辑文本。借助 YanAI 大模型，语音控制可以理解自然语言指令如"把上个月的照片整理成一个相册"。</p>
+
+  <h2>认知辅助</h2>
+  <h3>引导式访问</h3>
+  <p>将设备锁定到单一应用并限制可操作区域，减少认知负担和分心。广泛用于特殊教育、老年用户和需要专注力的场景。支持自定义可触摸区域、时间限制和禁用硬件按钮。</p>
+  <h3>Safari 阅读器 &amp; 简化视图</h3>
+  <p>Safari 浏览器内置的阅读器模式可以去除广告、导航和视觉噪音，只呈现正文内容，支持自定义字体、字号、行间距和背景颜色。这对于有阅读障碍（如失读症）或注意力困难（如 ADHD）的用户尤为重要。</p>
+
+  <h2>教育与推广</h2>
+  <p>YanJing 在全球每间零售店提供免费的辅助功能课程——"Today at YanJing: Accessibility Basics"。课程涵盖旁白使用、辅助触控设置、语音控制入门等内容，由经过专业培训的店员指导。2025 财年，全球有超过 200 万人次参加了这项课程。</p>
+  <p>我们还与全球 50 多所特殊教育学校和残障人士组织建立了合作关系，捐赠设备和提供培训。YanJing 开发者工具也提供了完整的无障碍 API 和最佳实践文档，帮助第三方开发者构建普惠应用。</p>
+</section>
+<footer class="footer"><div class="footer-inner"><div class="footer-grid"><div class="footer-col"><h4>选购及了解</h4><a href="ycall.html">Ycall</a><a href="ypad.html">YPad</a><a href="yvision.html">YVision Pro</a></div><div class="footer-col"><h4>关于 YanJing</h4><a href="about.html">公司介绍</a><a href="careers.html">工作机会</a><a href="news.html">新闻中心</a><a href="investors.html">投资者关系</a></div><div class="footer-col"><h4>价值观</h4><a href="accessibility.html">辅助功能</a><a href="environment.html">环境责任</a><a href="privacy.html">隐私保护</a><a href="supplier.html">供应商责任</a></div><div class="footer-col"><h4>账户</h4><a href="#" onclick="openModal()">创建 YanJing ID</a></div></div><div class="footer-bottom"><span>Copyright &copy; 2026 YanJing And Hundred Dream Inc.</span></div></div></footer>
+<script>
+var TOKEN_KEY='yanjing_token',currentToken=null,currentUser=null;
+function showToast(m,t){var c=document.getElementById('toastContainer'),e=document.createElement('div');e.className='toast '+t;e.textContent=m;c.appendChild(e);setTimeout(function(){e.style.opacity='0';e.style.transform='translateY(-20px)';setTimeout(function(){if(e.parentNode)e.parentNode.removeChild(e)},300)},3000)}
+function updateNav(){var l=document.getElementById('navLoginBtn'),u=document.getElementById('navUser'),n=document.getElementById('navUserName');if(currentToken&&currentUser){l.style.display='none';u.classList.add('show');n.textContent=currentUser.username||currentUser.email}else{l.style.display='';u.classList.remove('show');n.textContent=''}}
+function saveAuth(t,u){currentToken=t;currentUser=u;localStorage.setItem(TOKEN_KEY,t);localStorage.setItem('yanjing_user',JSON.stringify(u));updateNav()}
+function logout(){currentToken=null;currentUser=null;localStorage.removeItem(TOKEN_KEY);localStorage.removeItem('yanjing_user');updateNav();showToast('已退出登录','info')}
+async function openModal(m){window.location.href='index.html#'+(m==='login'?'login':'register')}
+async function checkAuth(){var t=localStorage.getItem(TOKEN_KEY);if(!t){updateNav();return}try{var r=await fetch('/api/verify',{headers:{'Authorization':'Bearer '+t}});var d=await r.json();if(d.success){currentToken=t;currentUser=d.user;updateNav()}else{localStorage.removeItem(TOKEN_KEY);localStorage.removeItem('yanjing_user');updateNav()}}catch(e){var cu=localStorage.getItem('yanjing_user');if(cu){try{currentToken=t;currentUser=JSON.parse(cu);updateNav()}catch(e2){}}else updateNav()}}
+checkAuth();
+</script>
+</body>
+</html>

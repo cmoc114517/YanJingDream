@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新闻中心 - YanJing And Hundred Dream</title>
+<style>
+  :root { --bg-dark: #000; --bg-light: #f5f5f7; --text-dark: #1d1d1f; --text-gray: #86868b; --text-light: #f5f5f7; --accent: #0071e3; --accent-hover: #0077ed; --nav-height: 44px; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-dark); background: #fff; line-height: 1.47; overflow-x: hidden; }
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; height: var(--nav-height); background: rgba(0,0,0,0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  .nav-inner { max-width: 1024px; margin: 0 auto; height: 100%; display: flex; align-items: center; justify-content: center; gap: 40px; padding: 0 22px; }
+  .nav-logo { font-size: 17px; font-weight: 600; color: #f5f5f7; text-decoration: none; white-space: nowrap; }
+  .nav-link { font-size: 12px; color: #f5f5f7; text-decoration: none; opacity: 0.8; transition: opacity 0.3s; }
+  .nav-link:hover { opacity: 1; }
+  .nav-actions { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+  .nav-login-btn { font-size: 12px; color: #f5f5f7; opacity: 0.8; background: none; border: none; cursor: pointer; }
+  .nav-login-btn:hover { opacity: 1; }
+  .nav-user { display: none; align-items: center; gap: 8px; }
+  .nav-user.show { display: flex; }
+  .nav-user-name { font-size: 12px; color: #f5f5f7; }
+  .nav-logout-btn { font-size: 11px; color: #ff375f; background: rgba(255,55,95,0.1); border: none; padding: 4px 12px; border-radius: 14px; cursor: pointer; transition: 0.3s; }
+  .nav-logout-btn:hover { opacity: 1; background: rgba(255,55,95,0.15); }
+  .hero { background: #000; color: #fff; text-align: center; padding: 140px 24px 80px; }
+  .hero h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
+  .hero p { font-size: 21px; color: #86868b; max-width: 600px; margin: 0 auto; }
+  .content-section { max-width: 800px; margin: 0 auto; padding: 80px 24px; }
+  .news-item { border-bottom: 1px solid #e5e5e7; padding: 40px 0; }
+  .news-item:first-child { padding-top: 0; }
+  .news-date { font-size: 13px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+  .news-item h3 { font-size: 24px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; }
+  .news-item p { font-size: 16px; color: #6e6e73; line-height: 1.8; }
+  .news-tag { display: inline-block; background: #f5f5f7; color: #6e6e73; font-size: 12px; padding: 4px 12px; border-radius: 14px; margin-right: 8px; margin-top: 12px; }
+  .toast-container { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  .toast { padding: 12px 24px; border-radius: 12px; color: #fff; font-size: 14px; backdrop-filter: blur(20px); opacity: 0; transform: translateY(-20px) scale(0.9); animation: toastIn 0.3s forwards; }
+  .toast.success { background: rgba(52,199,89,0.9); }
+  .toast.error { background: rgba(255,55,95,0.9); }
+  .toast.info { background: rgba(0,113,227,0.9); }
+  @keyframes toastIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+  .footer { background: #f5f5f7; padding: 60px 24px 30px; }
+  .footer-inner { max-width: 1024px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
+  .footer-col h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: #6e6e73; text-decoration: none; margin-bottom: 10px; }
+  .footer-col a:hover { color: #1d1d1f; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid #d2d2d7; font-size: 12px; color: #86868b; }
+  @media (max-width: 768px) { .hero h1 { font-size: 36px; } .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="toast-container" id="toastContainer"></div>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">YanJing & Hundred Dream</a>
+    <a href="ycall.html" class="nav-link">Ycall</a>
+    <a href="ypad.html" class="nav-link">YPad</a>
+    <a href="yvision.html" class="nav-link">YVision</a>
+    <div class="nav-actions">
+      <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
+      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" onclick="logout()">退出</button></div>
+    </div>
+  </div>
+</nav>
+<section class="hero"><h1>新闻中心</h1><p>了解 YanJing 的最新动态、产品发布和公司公告。</p></section>
+<section class="content-section">
+
+<div class="news-item">
+  <div class="news-date">2026 年 5 月 20 日</div>
+  <h3>YanJing 发布 YanAI 大模型服务平台，全面拥抱人工智能</h3>
+  <p>YanJing 今日正式发布 YanAI 大模型服务平台，这是公司自 2022 年自研 Y1 芯片以来的最大技术发布。YanAI 包括端侧推理引擎、云端千亿参数大模型和开发者工具链三大组件，深度集成在 YanOS 6 操作系统中。CEO Cola 在发布会上表示："AI 不应该是一个独立的产品——它应该像空气一样，无处不在却又让你感受不到它的存在。YanAI 就是按照这个理念设计的。"该平台将于 6 月 10 日起向全球开发者开放 API 接口。首批接入的合作伙伴包括多家教育、医疗和创意设计领域的头部企业。</p>
+  <span class="news-tag">产品发布</span><span class="news-tag">人工智能</span><span class="news-tag">YanAI</span>
+</div>
+
+<div class="news-item">
+  <div class="news-date">2026 年 4 月 2 日</div>
+  <h3>YanJing 2026 财年第一季度财报：营收同比增长 12%，服务业务再创新高</h3>
+  <p>YanJing 今日发布 2026 财年第一季度（截至 2026 年 3 月 31 日）财务报告。季度总营收达到 842 亿元人民币，同比增长 12%，超出华尔街分析师平均预期。其中 Ycall 系列贡献营收 396 亿元，YPad 贡献 118 亿元，服务业务（包括 YanCloud、YApp Store、YanPay 等）贡献 248 亿元，创历史新高。服务业务毛利达到 72.3%，成为公司最重要的利润增长引擎。大中华区营收占比 42%，美洲区 28%，欧洲区 18%，其他地区 12%。法定代表人 Baiwan 在财报电话会上透露：全球 Ycall 活跃设备已超过 12 亿台。</p>
+  <span class="news-tag">财报</span><span class="news-tag">财务</span><span class="news-tag">投资者关系</span>
+</div>
+
+<div class="news-item">
+  <div class="news-date">2026 年 3 月 18 日</div>
+  <h3>YanJing 深圳新总部大楼正式启用，可容纳 6000 名员工</h3>
+  <p>YanJing 位于深圳南山区的全新总部大楼"YanJing Tower"于今日正式启用。大楼高 280 米，共 62 层，总建筑面积 18 万平方米，可容纳约 6000 名员工同时办公。新总部采用了一系列创新设计：100% 使用可再生能源供电，屋顶和幕墙集成了超过 5000 平方米的太阳能板；建筑表皮采用自适应遮阳系统，可根据日照角度自动调节；内部空间以"开放协作"为理念设计，超过 40% 的面积为共享空间和绿化区域。COO Baiwan 在剪彩仪式上表示："这座大楼不仅是我们的家，更是我们对未来工作方式的宣言。"</p>
+  <span class="news-tag">公司动态</span><span class="news-tag">基础设施</span><span class="news-tag">可持续发展</span>
+</div>
+
+<div class="news-item">
+  <div class="news-date">2026 年 2 月 25 日</div>
+  <h3>YVision Pro 全球累计销量突破 200 万台，开发者生态快速增长</h3>
+  <p>YanJing 宣布 YVision Pro 自 2024 年发布以来，全球累计销量已突破 200 万台。这一里程碑式的成绩伴随着 developer 生态的爆发性增长：目前 YvisionOS 平台上的原生空间计算应用已超过 8,500 款，覆盖教育、医疗、设计、娱乐等 20 余个品类。其中医疗影像可视化、建筑 BIM 协同和工业设计类应用增长最为迅速。为推动生态发展，YanJing 同时宣布将 YVision 开发者基金的规模从 5 亿元扩大至 15 亿元人民币，重点支持教育、医疗和工业领域的空间计算创新项目。</p>
+  <span class="news-tag">产品</span><span class="news-tag">YVision</span><span class="news-tag">开发者</span>
+</div>
+
+<div class="news-item">
+  <div class="news-date">2026 年 1 月 15 日</div>
+  <h3>YanJing 连续第五年入选"全球最受尊敬公司"榜单，位列第三</h3>
+  <p>《财富》杂志今日发布 2025 年度"全球最受尊敬公司"榜单，YanJing 连续第五年入选，位列第三，仅次于两家硅谷科技巨头。在分项评分中，YanJing 在"创新能力"、"产品与服务质量"和"社会责任"三项指标中均获得行业最高分。《财富》在评语中写道："YanJing 是极少数能够在保持高速增长的同时，持续赢得消费者信任和维护社会责任的科技公司。"CEO Cola 对这份荣誉回应道："奖项是用户信任的副产品。我们关注的不是排名，而是每天能否比昨天做得更好。"</p>
+  <span class="news-tag">荣誉</span><span class="news-tag">企业文化</span>
+</div>
+
+<div class="news-item">
+  <div class="news-date">2025 年 12 月 10 日</div>
+  <h3>YanJing 与联合国教科文组织合作，启动全球教育公平计划</h3>
+  <p>YanJing 今日宣布与联合国教科文组织（UNESCO）签署为期五年的战略合作协议，共同推进全球教育公平计划"YanJing Education Connect"。根据协议，YanJing 将在五年内捐赠价值 20 亿元人民币的硬件设备和数字教育内容，覆盖非洲、东南亚和拉丁美洲的 50 个发展中国家。项目将为超过 100 万名学生和教师提供 YPad 设备和定制化的教育应用，帮助缺乏数字基础设施的地区接入优质的在线教育资源。Cola 表示："教育是我们创立 YanJing 的初心。2000 年我们做的第一款产品就是面向学生的 YTune 播放器。二十六年后的今天，我们有了更大的能力去帮助更多人。"</p>
+  <span class="news-tag">社会责任</span><span class="news-tag">教育</span><span class="news-tag">全球合作</span>
+</div>
+
+<div class="news-item">
+  <div class="news-date">2025 年 11 月 5 日</div>
+  <h3>Ycall 19 正式发布：自研 Y1 Pro 芯片、卫星通信 2.0、全新计算摄影</h3>
+  <p>YanJing 今日发布第 19 代 Ycall 智能手机。Ycall 19 搭载全新自研 Y1 Pro 芯片，采用 3nm 制程工艺，CPU 性能较上一代提升 25%，GPU 提升 35%，神经网络引擎算力达到 45 TOPS。这是第一款全面支持 YanAI 端侧推理的 Ycall，可在不联网的情况下运行 70 亿参数的语言模型。拍照系统升级为四摄阵列，主摄采用全新的 48MP 定制传感器，配合计算摄影引擎可实现媲美专业相机的成像效果。卫星通信功能升级至 2.0 版本，新增双向短信功能和紧急定位共享。Ycall 19 起售价 6999 元，3 月 15 日正式发售。</p>
+  <span class="news-tag">产品发布</span><span class="news-tag">Ycall</span><span class="news-tag">芯片</span>
+</div>
+
+<div class="news-item">
+  <div class="news-date">2025 年 9 月 22 日</div>
+  <h3>YanJing 达成碳中和里程碑：全球运营 100% 使用清洁能源</h3>
+  <p>YanJing 今日宣布，公司全球运营已实现 100% 使用清洁能源供电，比原定 2030 年目标提前五年完成任务。这一成就覆盖了 YanJing 在全球 12 个国家的办公室、零售店和数据中心。公司同时发布了《2025 年环境进展报告》，披露了详细的环境数据：YanJing 全球碳足迹较 2020 年基准线降低了 64%；产品包装中塑料使用量减少了 87%；通过材料回收体系，2025 年度从旧设备中回收了超过 2000 吨稀土材料和贵金属。"碳中和不是一个终点，"COO Baiwan 表示，"供应链碳中和是下一个大目标。我们正在与全球 200 多家核心供应商合作，帮助他们到 2028 年全面转向清洁能源。"</p>
+  <span class="news-tag">环境</span><span class="news-tag">可持续发展</span><span class="news-tag">碳中和</span>
+</div>
+
+<div class="news-item">
+  <div class="news-date">2025 年 7 月 14 日</div>
+  <h3>YanJing 投资 50 亿元建设北京人工智能研究院，招募全球顶尖人才</h3>
+  <p>YanJing 宣布将在北京中关村科学城投资 50 亿元人民币建设"YanJing 人工智能研究院"。研究院将聚焦大模型基础研究、多模态感知、机器人学习和 AI 安全四大方向，计划在三年内建成约 500 人的研究团队。院长由原微软亚洲研究院副院长、IEEE Fellow 张明远教授出任。Cola 在签约仪式上表示："我们正在从一家消费电子公司进化为一家 AI 原生企业。北京研究院将承担 YanJing 未来十年的核心技术研发任务。"目前研究院已启动全球招聘，首批 60 个研究员岗位开放申请，覆盖自然语言处理、计算机视觉、强化学习等领域。</p>
+  <span class="news-tag">研发</span><span class="news-tag">人工智能</span><span class="news-tag">人才</span>
+</div>
+
+<div class="news-item">
+  <div class="news-date">2025 年 5 月 6 日</div>
+  <h3>YanJing 连续第八年位列全球最具价值品牌前十</h3>
+  <p>根据 Brand Finance 发布的 2025 年度《全球最具价值品牌报告》，YanJing 品牌价值达到 3120 亿美元，连续第八年位列全球前十，排名第六。报告指出，YanJing 的品牌强度指数（BSI）得分为 93.2（满分 100），在所有科技品牌中排名第一。Brand Finance 分析认为，YanJing 品牌价值的持续增长得益于其在创新感知度、用户忠诚度和可持续发展形象三个维度的出色表现。YanJing 的用户净推荐值（NPS）达到 82，远高于行业平均水平的 43。</p>
+  <span class="news-tag">品牌</span><span class="news-tag">荣誉</span>
+</div>
+
+</section>
+<footer class="footer"><div class="footer-inner"><div class="footer-grid"><div class="footer-col"><h4>选购及了解</h4><a href="ycall.html">Ycall</a><a href="ypad.html">YPad</a><a href="yvision.html">YVision Pro</a></div><div class="footer-col"><h4>关于 YanJing</h4><a href="about.html">公司介绍</a><a href="careers.html">工作机会</a><a href="news.html">新闻中心</a><a href="investors.html">投资者关系</a></div><div class="footer-col"><h4>价值观</h4><a href="accessibility.html">辅助功能</a><a href="environment.html">环境责任</a><a href="privacy.html">隐私保护</a><a href="supplier.html">供应商责任</a></div><div class="footer-col"><h4>账户</h4><a href="#" onclick="openModal()">创建 YanJing ID</a></div></div><div class="footer-bottom"><span>Copyright &copy; 2026 YanJing And Hundred Dream Inc.</span></div></div></footer>
+<script>
+var TOKEN_KEY='yanjing_token',currentToken=null,currentUser=null;
+function showToast(m,t){var c=document.getElementById('toastContainer'),e=document.createElement('div');e.className='toast '+t;e.textContent=m;c.appendChild(e);setTimeout(function(){e.style.opacity='0';e.style.transform='translateY(-20px)';setTimeout(function(){if(e.parentNode)e.parentNode.removeChild(e)},300)},3000)}
+function updateNav(){var l=document.getElementById('navLoginBtn'),u=document.getElementById('navUser'),n=document.getElementById('navUserName');if(currentToken&&currentUser){l.style.display='none';u.classList.add('show');n.textContent=currentUser.username||currentUser.email}else{l.style.display='';u.classList.remove('show');n.textContent=''}}
+function saveAuth(t,u){currentToken=t;currentUser=u;localStorage.setItem(TOKEN_KEY,t);localStorage.setItem('yanjing_user',JSON.stringify(u));updateNav()}
+function logout(){currentToken=null;currentUser=null;localStorage.removeItem(TOKEN_KEY);localStorage.removeItem('yanjing_user');updateNav();showToast('已退出登录','info')}
+async function openModal(m){window.location.href='index.html#'+(m==='login'?'login':'register')}
+async function checkAuth(){var t=localStorage.getItem(TOKEN_KEY);if(!t){updateNav();return}try{var r=await fetch('/api/verify',{headers:{'Authorization':'Bearer '+t}});var d=await r.json();if(d.success){currentToken=t;currentUser=d.user;updateNav()}else{localStorage.removeItem(TOKEN_KEY);localStorage.removeItem('yanjing_user');updateNav()}}catch(e){var cu=localStorage.getItem('yanjing_user');if(cu){try{currentToken=t;currentUser=JSON.parse(cu);updateNav()}catch(e2){}}else updateNav()}}
+checkAuth();
+</script>
+</body>
+</html>
