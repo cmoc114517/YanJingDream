@@ -4,7 +4,7 @@
 // 返回: { success, user }
 // ============================================================
 
-import { verifyJWT, getClientIP } from '../shared/auth.js';
+import { verifyJWT } from '../shared/auth.js';
 
 export async function onRequest(context) {
   const { request, env } = context;

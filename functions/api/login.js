@@ -13,7 +13,6 @@ import {
   clearFailedAttempts,
   validatePassword,
   isEmail,
-  getClientIP,
   JWT_EXPIRY
 } from '../shared/auth.js';
 
@@ -27,7 +26,7 @@ export async function onRequest(context) {
     });
   }
 
-  const ip = getClientIP(request);
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
 
   // 速率限制
   const rateLimit = await checkRateLimit(env, ip);

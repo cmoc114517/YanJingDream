@@ -1,7 +1,6 @@
 // ============================================================
 // shared/auth.js — 密码哈希 / JWT / 速率限制 / 账户锁定
 // 供 login.js, register.js, verify.js 共用
-// 兼容 EdgeOne Pages Edge Functions（标准 Web Crypto API）
 // ============================================================
 
 // ========== 配置 ==========
@@ -14,7 +13,6 @@ export const LOCKOUT_THRESHOLD = 5;
 export const LOCKOUT_DURATION = 60 * 15; // 15分钟（秒）
 
 // ========== 密码哈希（PBKDF2-SHA256）==========
-// 标准 Web Crypto API，EdgeOne 和 Cloudflare 通用
 
 export async function hashPassword(password) {
   const encoder = new TextEncoder();
@@ -114,7 +112,6 @@ export async function verifyJWT(token) {
 }
 
 // ========== 速率限制 ==========
-// EdgeOne 通过 X-Forwarded-For 获取客户端 IP
 
 export async function checkRateLimit(env, ip) {
   const key = `rate_limit:${ip}`;
@@ -187,18 +184,4 @@ export function validatePassword(password) {
 export function isEmail(str) {
   if (typeof str !== 'string') return false;
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(str);
-}
-
-// ========== 获取客户端 IP（兼容 EdgeOne Pages）==========
-// EdgeOne 使用标准 CDN 头，Cloudflare 使用 CF-Connecting-IP
-export function getClientIP(request) {
-  // EdgeOne / 标准 CDN
-  const xff = request.headers.get('X-Forwarded-For');
-  if (xff) return xff.split(',')[0].trim();
-  const xri = request.headers.get('X-Real-IP');
-  if (xri) return xri.trim();
-  // Cloudflare 回退
-  const cf = request.headers.get('CF-Connecting-IP');
-  if (cf) return cf.trim();
-  return 'unknown';
 }

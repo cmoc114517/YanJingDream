@@ -1,8 +1,7 @@
-// ============================================================
-// POST /api/register — 用户注册（使用 PBKDF2 哈希 + JWT）
-// ============================================================
+// functions/api/register.js
+// Cloudflare Pages Function - 用户注册（使用 PBKDF2 哈希 + JWT）
 
-import { hashPassword, generateJWT, validatePassword, isEmail, getClientIP } from '../shared/auth.js';
+import { hashPassword, generateJWT, validatePassword } from '../shared/auth.js';
 
 const REGISTER_CODE = 'yanjingpeoplehihihi';
 const RATE_LIMIT_WINDOW = 60;
@@ -32,6 +31,13 @@ function isValidInput(str, maxLen) {
   if (typeof str !== 'string') return false;
   if (str.length > maxLen) return false;
   return /^[\w\u4e00-\u9fff@.\- ]*$/.test(str);
+}
+
+function getClientIP(request) {
+  return request.headers.get('cf-connecting-ip')
+    || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+    || request.headers.get('x-real-ip')
+    || 'unknown';
 }
 
 function json(data, status, extraHeaders) {
