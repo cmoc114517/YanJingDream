@@ -97,7 +97,12 @@ export async function onRequestPost(context) {
   const { username: rawUser, email: rawEmail, password: rawPw, registerCode: rawCode } = body || {};
 
   if (typeof rawUser !== 'string' || typeof rawEmail !== 'string' || typeof rawPw !== 'string' || typeof rawCode !== 'string') {
-    return json({ success: false, message: '参数类型不正确', code: 'INVALID_PARAMS' }, 400);
+    const missing = [];
+    if (typeof rawUser !== 'string') missing.push('username(' + typeof rawUser + ')');
+    if (typeof rawEmail !== 'string') missing.push('email(' + typeof rawEmail + ')');
+    if (typeof rawPw !== 'string') missing.push('password(' + typeof rawPw + ')');
+    if (typeof rawCode !== 'string') missing.push('registerCode(' + typeof rawCode + ')');
+    return json({ success: false, message: '参数类型不正确: ' + missing.join(', '), code: 'INVALID_PARAMS' }, 400);
   }
 
   const username = sanitize(rawUser);
