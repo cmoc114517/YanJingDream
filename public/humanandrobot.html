@@ -391,7 +391,7 @@ function renderCaptcha() {
   for (var i = 0; i < selectedQuestions.length; i++) {
     html += '<div class="captcha-item" id="captcha-' + i + '">' +
       '<div class="captcha-q"><span class="num">' + (i + 1) + '</span>' + selectedQuestions[i].q + '</div>' +
-      '<input class="captcha-input" id="captcha-input-' + i + '" placeholder="' + selectedQuestions[i].hint + '" oninput="checkCaptcha(' + i + ')" autocomplete="off">' +
+      '<input class="captcha-input" id="captcha-input-' + i + '" placeholder="" oninput="checkCaptcha(' + i + ')" autocomplete="off">' +
       '<div class="captcha-status" id="captcha-status-' + i + '"></div>' +
       '</div>';
   }
