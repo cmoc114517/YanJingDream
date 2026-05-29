@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>注册 · YanJing And Hundred Dream</title>
+<style>
+  :root {
+    --bg: #f5f5f7; --card-bg: #fff; --text: #1d1d1f; --text-gray: #86868b;
+    --accent: #0071e3; --accent-hover: #0077ed; --error: #ff3b30; --success: #34c759;
+    --nav-height: 44px;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--text); background: var(--bg); line-height: 1.47; min-height: 100vh;
+  }
+
+  /* Nav */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; height: var(--nav-height);
+    background: rgba(0,0,0,0.8); backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  .nav-inner { max-width: 1024px; margin: 0 auto; height: 100%; display: flex;
+    align-items: center; justify-content: center; gap: 40px; padding: 0 22px; }
+  .nav-logo { font-size: 17px; font-weight: 600; color: #f5f5f7; text-decoration: none; white-space: nowrap; }
+  .nav-link { font-size: 12px; color: #f5f5f7; text-decoration: none; opacity: 0.8; transition: opacity 0.3s; }
+  .nav-link:hover { opacity: 1; }
+
+  /* Page */
+  .page { padding-top: calc(var(--nav-height) + 40px); padding-bottom: 80px; }
+  .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 40px; }
+  .header h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .header p { font-size: 17px; color: var(--text-gray); }
+
+  /* Card */
+  .card { background: var(--card-bg); border-radius: 18px; padding: 40px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+
+  /* Section */
+  .section { margin-bottom: 36px; }
+  .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .section-sub { font-size: 14px; color: var(--text-gray); margin-bottom: 20px; }
+
+  /* Form */
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+  .form-input { width: 100%; height: 46px; padding: 0 14px; border: 1px solid #d2d2d7;
+    border-radius: 10px; font-size: 16px; font-family: inherit; background: #fff;
+    transition: border 0.2s, box-shadow 0.2s; outline: none; }
+  .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0,113,227,0.15); }
+  .form-input.error { border-color: var(--error); }
+  .form-input.success { border-color: var(--success); }
+  .form-hint { font-size: 12px; color: var(--text-gray); margin-top: 4px; }
+  .form-error { font-size: 12px; color: var(--error); margin-top: 4px; min-height: 16px; }
+
+  /* CAPTCHA */
+  .captcha-list { display: flex; flex-direction: column; gap: 14px; }
+  .captcha-item { background: #f9f9fb; border-radius: 12px; padding: 16px 20px;
+    border: 1px solid #e8e8ed; transition: border 0.2s; }
+  .captcha-item.wrong { border-color: var(--error); background: #fff5f5; }
+  .captcha-item.pass { border-color: var(--success); background: #f0fdf4; }
+  .captcha-q { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+  .captcha-q .num { display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; border-radius: 50%; background: var(--accent);
+    color: #fff; font-size: 12px; margin-right: 8px; flex-shrink: 0; }
+  .captcha-input { width: 100%; height: 40px; padding: 0 12px; border: 1px solid #d2d2d7;
+    border-radius: 8px; font-size: 15px; font-family: inherit; outline: none; background: #fff;
+    transition: border 0.2s; }
+  .captcha-input:focus { border-color: var(--accent); }
+  .captcha-status { font-size: 12px; margin-top: 6px; min-height: 16px; }
+  .captcha-status.ok { color: var(--success); }
+  .captcha-status.fail { color: var(--error); }
+
+  /* Submit */
+  .submit-area { text-align: center; margin-top: 8px; padding-top: 8px; }
+  .btn-submit { display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; max-width: 320px; height: 50px; background: var(--accent); color: #fff;
+    border: none; border-radius: 25px; font-size: 17px; font-weight: 600; cursor: pointer;
+    transition: background 0.3s, opacity 0.3s; font-family: inherit; }
+  .btn-submit:hover { background: var(--accent-hover); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-submit .spinner { display: none; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; }
+  .btn-submit.loading .spinner { display: block; }
+  .btn-submit.loading .btn-text { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .back-link { text-align: center; margin-top: 20px; }
+  .back-link a { color: var(--accent); text-decoration: none; font-size: 14px; }
+  .back-link a:hover { text-decoration: underline; }
+
+  /* Toast */
+  .toast { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); z-index: 99999;
+    padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 500;
+    color: #fff; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+  .toast.error { background: var(--error); }
+  .toast.success { background: var(--success); }
+
+  /* Progress */
+  .captcha-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+  .captcha-progress-bar { flex: 1; height: 4px; background: #e8e8ed; border-radius: 2px; overflow: hidden; }
+  .captcha-progress-fill { height: 100%; background: var(--success); border-radius: 2px; transition: width 0.3s; }
+  .captcha-progress-text { font-size: 13px; color: var(--text-gray); white-space: nowrap; }
+
+  @media (max-width: 600px) {
+    .card { padding: 24px 20px; }
+    .header h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">YanJing</a>
+    <a href="ycall.html" class="nav-link">Ycall</a>
+    <a href="ypad.html" class="nav-link">YPad</a>
+    <a href="yvision.html" class="nav-link">YVision</a>
+    <a href="about.html" class="nav-link">关于</a>
+    <a href="news.html" class="nav-link">新闻</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container">
+    <div class="header">
+      <h1>创建你的 YanJing ID</h1>
+      <p>加入 YanJing 生态，探索无限可能</p>
+    </div>
+
+    <div class="card">
+      <!-- 账号信息 -->
+      <div class="section">
+        <div class="section-title">账户信息</div>
+        <div class="section-sub">请填写以下信息创建账户</div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-username">用户名</label>
+          <input class="form-input" type="text" id="reg-username" placeholder="3-20 个字符" autocomplete="off" maxlength="20">
+          <div class="form-error" id="err-username"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-email">电子邮箱</label>
+          <input class="form-input" type="email" id="reg-email" placeholder="your@email.com" autocomplete="off">
+          <div class="form-error" id="err-email"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password">密码</label>
+          <input class="form-input" type="password" id="reg-password" placeholder="至少 6 位" autocomplete="off">
+          <div class="form-error" id="err-password"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-code">注册码</label>
+          <input class="form-input" type="text" id="reg-code" placeholder="请输入邀请注册码" autocomplete="off">
+          <div class="form-error" id="err-code"></div>
+        </div>
+      </div>
+
+      <!-- 人机验证 -->
+      <div class="section" style="border-top: 1px solid #e8e8ed; padding-top: 36px;">
+        <div class="section-title">人机验证</div>
+        <div class="section-sub">请回答以下全部 10 道题目以证明你不是机器人</div>
+
+        <div class="captcha-progress">
+          <div class="captcha-progress-bar">
+            <div class="captcha-progress-fill" id="progressFill" style="width:0%"></div>
+          </div>
+          <span class="captcha-progress-text" id="progressText">0/10 通过</span>
+        </div>
+
+        <div class="captcha-list" id="captchaList"></div>
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-area" style="border-top: 1px solid #e8e8ed; padding-top: 28px;">
+        <button class="btn-submit" id="submitBtn" disabled>
+          <span class="btn-text">提交注册</span>
+          <span class="spinner"></span>
+        </button>
+        <div class="back-link" style="margin-top: 16px;">
+          <a href="index.html">← 返回首页</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ========== 10 道人机验证题目 ==========
+var allQuestions = [
+  { q: '5 + 3 = ?', a: '8', hint: '一位数字' },
+  { q: '天空是什么颜色？（一个汉字）', a: '蓝', hint: '一个字，常见颜色' },
+  { q: '10 - 4 = ?', a: '6', hint: '一位数字' },
+  { q: '请在下方输入"human"（小写英文）', a: 'human', hint: '照抄引号里的单词' },
+  { q: '猫的叫声是什么？（一个汉字）', a: '喵', hint: '拟声词，一个汉字' },
+  { q: '一周有几天？（数字）', a: '7', hint: '一位数字' },
+  { q: '"热"的反义词是什么？（一个汉字）', a: '冷', hint: '温度的另一端' },
+  { q: '2 + 2 × 3 = ?', a: '8', hint: '先乘后加' },
+  { q: '中国有几个特别行政区？（数字）', a: '2', hint: '香港和澳门' },
+  { q: '请在下方输入"YanJing"（注意大小写）', a: 'YanJing', hint: '照抄引号里的单词，注意大写' }
+];
+
+var currentCorrect = 0;  // 当前答对数量
+
+// ========== 常量 ==========
+var REGISTER_CODE = 'yanjingpeoplehihihi';
+
+function $(id) { return document.getElementById(id); }
+
+// ========== Toast ==========
+var toastTimer;
+function showToast(msg, type) {
+  var t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { t.className = 'toast'; }, 3000);
+}
+
+// ========== 渲染验证题 ==========
+function renderCaptcha() {
+  var container = $('captchaList');
+  var html = '';
+  for (var i = 0; i < allQuestions.length; i++) {
+    html += '<div class="captcha-item" id="captcha-' + i + '">' +
+      '<div class="captcha-q"><span class="num">' + (i + 1) + '</span>' + allQuestions[i].q + '</div>' +
+      '<input class="captcha-input" id="captcha-input-' + i + '" placeholder="' + allQuestions[i].hint + '" oninput="checkCaptcha(' + i + ')" autocomplete="off">' +
+      '<div class="captcha-status" id="captcha-status-' + i + '"></div>' +
+      '</div>';
+  }
+  container.innerHTML = html;
+  updateProgress();
+}
+
+// ========== 检查单道题 ==========
+function checkCaptcha(index) {
+  var input = $('captcha-input-' + index);
+  var status = $('captcha-status-' + index);
+  var item = $('captcha-' + index);
+  var userAnswer = input.value.trim();
+
+  if (!userAnswer) {
+    status.textContent = '';
+    status.className = 'captcha-status';
+    item.className = 'captcha-item';
+    recalcAll();
+    return;
+  }
+
+  var correctAnswer = allQuestions[index].a;
+  if (userAnswer === correctAnswer) {
+    status.textContent = '正确 ✓';
+    status.className = 'captcha-status ok';
+    item.className = 'captcha-item pass';
+  } else {
+    status.textContent = '回答错误，请重试';
+    status.className = 'captcha-status fail';
+    item.className = 'captcha-item wrong';
+  }
+
+  recalcAll();
+}
+
+// ========== 汇总所有题目 ==========
+function recalcAll() {
+  currentCorrect = 0;
+  for (var i = 0; i < allQuestions.length; i++) {
+    var input = $('captcha-input-' + i);
+    if (input && input.value.trim() === allQuestions[i].a) {
+      currentCorrect++;
+    }
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  var pct = Math.round((currentCorrect / allQuestions.length) * 100);
+  $('progressFill').style.width = pct + '%';
+  $('progressText').textContent = currentCorrect + '/' + allQuestions.length + ' 通过';
+
+  // 全部答对才启用提交按钮
+  var formOk = validateFormFields();
+  $('submitBtn').disabled = !(currentCorrect === allQuestions.length && formOk);
+}
+
+// ========== 表单字段验证 ==========
+function validateFormFields() {
+  var username = ($('reg-username').value || '').trim();
+  var email = ($('reg-email').value || '').trim();
+  var password = ($('reg-password').value || '');
+  var code = ($('reg-code').value || '').trim();
+
+  var ok = true;
+  if (username.length < 3 || username.length > 20) ok = false;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ok = false;
+  if (password.length < 6) ok = false;
+  if (!code) ok = false;
+  return ok;
+}
+
+// ========== 表单实时监听 ==========
+['username', 'email', 'password', 'code'].forEach(function(field) {
+  var el = $('reg-' + field);
+  if (el) {
+    el.addEventListener('input', function() { updateProgress(); });
+  }
+});
+
+// ========== 提交注册 ==========
+$('submitBtn').addEventListener('click', function() {
+  if ($('submitBtn').disabled) return;
+
+  var username = $('reg-username').value.trim();
+  var email = $('reg-email').value.trim();
+  var password = $('reg-password').value;
+  var registrationCode = $('reg-code').value.trim();
+
+  // 前端验证
+  var ok = true;
+  $('err-username').textContent = '';
+  $('err-email').textContent = '';
+  $('err-password').textContent = '';
+  $('err-code').textContent = '';
+
+  if (username.length < 3) { $('err-username').textContent = '用户名至少 3 个字符'; ok = false; }
+  if (username.length > 20) { $('err-username').textContent = '用户名最多 20 个字符'; ok = false; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $('err-email').textContent = '请输入有效的邮箱地址'; ok = false; }
+  if (password.length < 6) { $('err-password').textContent = '密码至少 6 位'; ok = false; }
+  if (!registrationCode) { $('err-code').textContent = '请输入注册码'; ok = false; }
+  if (registrationCode !== REGISTER_CODE) { $('err-code').textContent = '注册码错误'; ok = false; }
+  if (!ok) return;
+
+  var btn = $('submitBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  fetch('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: username,
+      email: email,
+      password: password,
+      registerCode: registrationCode
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    if (data.success) {
+      showToast('注册成功！正在跳转...', 'success');
+      // 保存 token 到 localStorage
+      try {
+        localStorage.setItem('yanjing_token', data.token);
+        localStorage.setItem('yanjing_user', JSON.stringify(data.user));
+      } catch(e) {}
+      setTimeout(function() { window.location.href = 'index.html'; }, 1500);
+    } else {
+      showToast(data.message || '注册失败，请重试', 'error');
+    }
+  })
+  .catch(function(err) {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    showToast('网络错误，请检查连接后重试', 'error');
+  });
+});
+
+// ========== 初始化 ==========
+renderCaptcha();
+</script>
+
+</body>
+</html>
