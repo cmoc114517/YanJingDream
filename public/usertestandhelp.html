@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>内测须知 - YanJing And Hundred Dream</title>
+<style>
+  :root {
+    --bg-dark: #000;
+    --accent: #0071e3;
+    --accent-hover: #0077ED;
+    --text-light: #f5f5f7;
+    --text-gray: #86868b;
+    --transition-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+      "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #000;
+    color: #f5f5f7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    overflow-x: hidden;
+  }
+
+  /* 背景光效 */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 20%, rgba(0,113,227,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 20% 80%, rgba(175,82,222,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative; z-index: 1;
+    max-width: 680px; width: 100%;
+    text-align: center;
+  }
+
+  /* 图标区 */
+  .icon-wrap {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0071e3 0%, #5ac8fa 100%);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 28px;
+    box-shadow: 0 0 40px rgba(0,113,227,0.35);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(0,113,227,0.3); }
+    50% { box-shadow: 0 0 60px rgba(0,113,227,0.55); }
+  }
+  .icon-wrap svg { width: 36px; height: 36px; fill: #fff; }
+
+  /* 标题 */
+  .page-tag {
+    font-size: 12px; font-weight: 500; color: #86868b;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+  .page-title {
+    font-size: clamp(28px, 5vw, 48px); font-weight: 700;
+    color: #f5f5f7; letter-spacing: -0.015em; line-height: 1.1;
+    margin-bottom: 32px;
+  }
+  .page-title .accent {
+    background: linear-gradient(135deg, #0071e3, #5ac8fa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+
+  /* 内容卡片 */
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-bottom: 28px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    text-align: left;
+  }
+
+  .card-title {
+    font-size: 13px; font-weight: 600; color: #86868b;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+
+  .notice-text {
+    font-size: 16px; line-height: 1.8; color: #e0e0e5;
+  }
+  .notice-text p { margin-bottom: 14px; }
+  .notice-text p:last-child { margin-bottom: 0; }
+
+  .contact-list {
+    list-style: none;
+    margin-top: 12px;
+  }
+  .contact-list li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-size: 15px; color: #c8c8d0;
+  }
+  .contact-list li:last-child { border-bottom: none; }
+  .contact-label {
+    font-size: 12px; color: #86868b; min-width: 40px;
+  }
+  .contact-val {
+    font-family: "SF Mono", "Consolas", monospace;
+    font-size: 14px; color: #5ac8fa;
+  }
+
+  .note-text {
+    font-size: 13px; color: #86868b;
+    margin-top: 10px; font-style: italic;
+  }
+
+  /* 倒计时 */
+  .countdown-wrap {
+    margin-bottom: 28px;
+  }
+  .countdown-label {
+    font-size: 14px; color: #86868b; margin-bottom: 10px;
+  }
+  .countdown-ring-wrap {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+  }
+  .countdown-num {
+    font-size: 40px; font-weight: 700; color: #0071e3;
+    font-variant-numeric: tabular-nums;
+    min-width: 52px; text-align: center;
+    transition: transform 0.2s var(--transition-smooth);
+  }
+  .countdown-num.tick {
+    transform: scale(1.2);
+  }
+  .countdown-bar-bg {
+    width: 100%; height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .countdown-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #0071e3, #5ac8fa);
+    border-radius: 2px;
+    width: 100%;
+    transition: width 1s linear;
+  }
+
+  /* 按钮 */
+  .btn-home {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 36px;
+    background: #0071e3; color: #fff;
+    border-radius: 980px; font-size: 17px; font-weight: 500;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.3s var(--transition-smooth);
+    opacity: 0; pointer-events: none;
+    transform: translateY(12px);
+  }
+  .btn-home.show {
+    opacity: 1; pointer-events: auto;
+    transform: translateY(0);
+    transition: all 0.5s var(--transition-smooth);
+  }
+  .btn-home:hover { background: #0077ED; box-shadow: 0 8px 30px rgba(0,113,227,0.4); transform: scale(1.03); }
+  .btn-home svg { width: 18px; height: 18px; fill: #fff; }
+
+  /* 页脚 */
+  .footer {
+    margin-top: 48px;
+    font-size: 12px; color: #424245;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .container { animation: fadeUp 0.8s var(--transition-smooth) both; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- 图标 -->
+  <div class="icon-wrap">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+  </div>
+
+  <div class="page-tag">Beta Notice</div>
+  <h1 class="page-title">内测<span class="accent">说明</span></h1>
+
+  <!-- 内容卡片 -->
+  <div class="card">
+    <div class="card-title">致各位访客</div>
+    <div class="notice-text">
+      <p>
+        由于我们目前处于网站内测阶段，网页中可能出现各种漏洞或功能异常，还请各位用户理解与原谅。
+      </p>
+      <p>
+        如您在使用过程中发现任何问题、漏洞或异常，请点击主页中的 <strong style="color:#5ac8fa;">「帮助」</strong> 按钮进行反馈，或直接联系我们的作者：
+      </p>
+    </div>
+
+    <ul class="contact-list">
+      <li>
+        <span class="contact-label">Gmail</span>
+        <span class="contact-val">cmoc114514@gmail.com</span>
+      </li>
+      <li>
+        <span class="contact-label">QQ</span>
+        <span class="contact-val">2953512634@qq.com</span>
+      </li>
+    </ul>
+
+    <p class="note-text">※ 反馈时请写清来因，以便我们尽快定位并修复问题，谢谢您的支持！</p>
+  </div>
+
+  <!-- 倒计时区域 -->
+  <div class="countdown-wrap">
+    <div class="countdown-label" id="countdownLabel">页面将在 <span id="countdownNum" class="countdown-num">10</span> 秒后允许返回主页</div>
+    <div class="countdown-bar-bg">
+      <div class="countdown-bar" id="countdownBar"></div>
+    </div>
+  </div>
+
+  <!-- 返回主页按钮（倒计时结束后出现） -->
+  <a href="index.html" class="btn-home" id="homeBtn">
+    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    返回主页
+  </a>
+
+  <div class="footer">
+    <p>YanJing And Hundred Dream &copy; 2000–2026 &nbsp;|&nbsp; yanjingdream.pages.dev</p>
+  </div>
+
+</div>
+
+<script>
+  let count = 10;
+  const numEl = document.getElementById('countdownNum');
+  const barEl = document.getElementById('countdownBar');
+  const labelEl = document.getElementById('countdownLabel');
+  const btnEl = document.getElementById('homeBtn');
+
+  // 初始进度条满
+  barEl.style.width = '100%';
+
+  const timer = setInterval(() => {
+    count--;
+    // 数字跳动动画
+    numEl.classList.add('tick');
+    setTimeout(() => numEl.classList.remove('tick'), 200);
+
+    numEl.textContent = count;
+    barEl.style.width = (count / 10 * 100) + '%';
+
+    if (count <= 0) {
+      clearInterval(timer);
+      labelEl.textContent = '您现在可以返回主页了';
+      numEl.style.display = 'none';
+      btnEl.classList.add('show');
+    }
+  }, 1000);
+</script>
+
+</body>
+</html>

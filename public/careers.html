@@ -169,5 +169,35 @@ async function openModal(m){window.location.href='index.html#'+(m==='login'?'log
 async function checkAuth(){var t=localStorage.getItem(TOKEN_KEY);if(!t){updateNav();return}try{var r=await fetch('/api/verify',{headers:{'Authorization':'Bearer '+t}});var d=await r.json();if(d.success){currentToken=t;currentUser=d.user;updateNav()}else{localStorage.removeItem(TOKEN_KEY);localStorage.removeItem('yanjing_user');updateNav()}}catch(e){var cu=localStorage.getItem('yanjing_user');if(cu){try{currentToken=t;currentUser=JSON.parse(cu);updateNav()}catch(e2){}}else updateNav()}}
 checkAuth();
 </script>
+
+<!-- ===== BETA WELCOME MODAL ===== -->
+<style>
+#beta-overlay{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px}
+#beta-modal{background:#1c1c1e;border:1px solid rgba(255,255,255,0.12);border-radius:24px;max-width:480px;width:100%;padding:40px 36px;text-align:center;box-shadow:0 40px 80px rgba(0,0,0,0.6);animation:betaIn 0.4s cubic-bezier(0.25,0.1,0.25,1) both}
+@keyframes betaIn{from{opacity:0;transform:scale(0.9) translateY(20px)}to{opacity:1;transform:none}}
+#beta-modal .bm-icon{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#0071e3,#5ac8fa);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 0 30px rgba(0,113,227,0.35)}
+#beta-modal .bm-icon svg{width:30px;height:30px;fill:#fff}
+#beta-modal .bm-tag{font-size:11px;font-weight:600;color:#86868b;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+#beta-modal .bm-title{font-size:22px;font-weight:700;color:#f5f5f7;letter-spacing:-0.01em;margin-bottom:16px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+#beta-modal .bm-body{font-size:15px;line-height:1.8;color:#aeaeb2;margin-bottom:28px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+#beta-modal .bm-confirm{display:inline-block;padding:12px 36px;background:#0071e3;color:#fff;border-radius:980px;font-size:16px;font-weight:500;border:none;cursor:pointer;transition:all 0.3s;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+#beta-modal .bm-confirm:hover{background:#0077ED;box-shadow:0 8px 30px rgba(0,113,227,0.4);transform:scale(1.03)}
+</style>
+<div id="beta-overlay">
+  <div id="beta-modal">
+    <div class="bm-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></div>
+    <div class="bm-tag">Beta · 内测公告</div>
+    <div class="bm-title">欢迎进入内测</div>
+    <div class="bm-body">尊敬的用户，欢迎您进入我们的网站进行内测。不管是无意打开或是作者邀请，请您停下手指，进入我们的网站进行测试，谢谢。</div>
+    <button class="bm-confirm" onclick="betaConfirm()">确认</button>
+  </div>
+</div>
+<script>
+(function(){if(sessionStorage.getItem('beta_ack')){var o=document.getElementById('beta-overlay');if(o)o.style.display='none';}})();
+function betaConfirm(){sessionStorage.setItem('beta_ack','1');var o=document.getElementById('beta-overlay');if(o)o.style.display='none';window.location.href='usertestandhelp.html';}
+</script>
+<!-- ===== /BETA WELCOME MODAL ===== -->
+
 </body>
+</html>
 </html>

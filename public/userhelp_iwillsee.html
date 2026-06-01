@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>帮助与反馈 - YanJing And Hundred Dream</title>
+<style>
+  :root {
+    --accent: #0071e3;
+    --transition-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+      "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #000;
+    color: #f5f5f7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 30%, rgba(0,113,227,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 80% 70%, rgba(175,82,222,0.07) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative; z-index: 1;
+    max-width: 640px; width: 100%;
+    text-align: center;
+    animation: fadeUp 0.8s var(--transition-smooth) both;
+  }
+
+  /* 顶部图标 */
+  .icon-wrap {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    box-shadow: 0 0 40px rgba(52,199,89,0.3);
+    animation: pulse-green 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 30px rgba(52,199,89,0.25); }
+    50% { box-shadow: 0 0 60px rgba(52,199,89,0.5); }
+  }
+  .icon-wrap svg { width: 38px; height: 38px; fill: #fff; }
+
+  .page-tag {
+    font-size: 12px; font-weight: 500; color: #86868b;
+    text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 10px;
+  }
+  h1 {
+    font-size: clamp(28px, 5vw, 46px); font-weight: 700;
+    letter-spacing: -0.015em; line-height: 1.1; margin-bottom: 14px;
+  }
+  h1 .accent {
+    background: linear-gradient(135deg, #34c759, #30d158, #5ac8fa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .subtitle {
+    font-size: 17px; color: #86868b; margin-bottom: 36px; line-height: 1.6;
+  }
+
+  /* 卡片 */
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 20px;
+    padding: 32px 36px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    text-align: left;
+  }
+  .card-heading {
+    font-size: 11px; font-weight: 600; color: #86868b;
+    text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px;
+  }
+  .notice-body {
+    font-size: 15px; line-height: 1.9; color: #d8d8e0;
+  }
+  .notice-body p { margin-bottom: 12px; }
+  .notice-body p:last-child { margin-bottom: 0; }
+
+  /* 步骤列表 */
+  .steps { list-style: none; }
+  .steps li {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 15px; color: #c8c8d0; line-height: 1.6;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .step-num {
+    flex-shrink: 0;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(135deg, #0071e3, #5ac8fa);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #fff;
+    margin-top: 1px;
+  }
+
+  /* 联系方式 */
+  .contact-box {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-top: 4px;
+  }
+  .contact-item {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 10px 14px;
+  }
+  .contact-icon { font-size: 18px; }
+  .contact-info { display: flex; flex-direction: column; }
+  .contact-type { font-size: 11px; color: #86868b; }
+  .contact-addr {
+    font-family: "SF Mono", "Consolas", monospace;
+    font-size: 13px; color: #5ac8fa;
+  }
+
+  /* 按钮区 */
+  .btn-group {
+    display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px; background: #0071e3; color: #fff;
+    border-radius: 980px; font-size: 15px; font-weight: 500;
+    text-decoration: none; transition: all 0.3s var(--transition-smooth);
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: #0077ED; box-shadow: 0 8px 30px rgba(0,113,227,0.4); transform: scale(1.02); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px; background: transparent; color: #2997ff;
+    border: 1px solid #2997ff; border-radius: 980px; font-size: 15px;
+    text-decoration: none; transition: all 0.3s var(--transition-smooth); cursor: pointer;
+  }
+  .btn-secondary:hover { background: rgba(41,151,255,0.1); transform: scale(1.02); }
+
+  .footer {
+    margin-top: 48px; font-size: 12px; color: #3a3a3c;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="icon-wrap">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v6z"/></svg>
+  </div>
+
+  <div class="page-tag">Help &amp; Feedback</div>
+  <h1>帮助与<span class="accent">反馈</span></h1>
+  <p class="subtitle">感谢您帮助我们改进 YanJing And Hundred Dream</p>
+
+  <!-- 说明卡片 -->
+  <div class="card">
+    <div class="card-heading">如何反馈问题</div>
+    <ul class="steps">
+      <li>
+        <span class="step-num">1</span>
+        <span>记录下您发现的问题或漏洞的具体表现，截图更佳</span>
+      </li>
+      <li>
+        <span class="step-num">2</span>
+        <span>写清问题来源：哪个页面、什么操作触发、出现了什么异常</span>
+      </li>
+      <li>
+        <span class="step-num">3</span>
+        <span>通过下方联系方式发送给我们，我们将尽快处理</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 联系方式卡片 -->
+  <div class="card">
+    <div class="card-heading">联系作者</div>
+    <div class="contact-box">
+      <div class="contact-item">
+        <span class="contact-icon">📧</span>
+        <div class="contact-info">
+          <span class="contact-type">Gmail</span>
+          <span class="contact-addr">cmoc114514@gmail.com</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">💬</span>
+        <div class="contact-info">
+          <span class="contact-type">QQ 邮箱</span>
+          <span class="contact-addr">2953512634@qq.com</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:#86868b;margin-top:14px;font-style:italic;">
+      ※ 反馈时请写清来因，以便我们快速定位问题，谢谢！
+    </p>
+  </div>
+
+  <!-- 按钮 -->
+  <div class="btn-group">
+    <a href="index.html" class="btn-primary">
+      <svg style="width:16px;height:16px;fill:#fff;" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      返回主页
+    </a>
+    <a href="usertestandhelp.html" class="btn-secondary">查看内测须知</a>
+  </div>
+
+  <div class="footer">
+    <p>YanJing And Hundred Dream &copy; 2000–2026 &nbsp;|&nbsp; yanjingdream.pages.dev</p>
+  </div>
+
+</div>
+
+</body>
+</html>
