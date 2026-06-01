@@ -25,7 +25,7 @@
   .nav-link:hover { opacity: 1; }
   .nav-actions { display: flex; align-items: center; gap: 16px; margin-left: auto; }
   .nav-btn { font-size: 12px; color: #2997ff; background: none; border: none; cursor: pointer; }
-  .nav-login-btn { font-size: 12px; color: #f5f5f7; opacity: 0.8; background: none; border: none; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
+  .nav-login-btn { font-size: 12px; color: #f5f5f7; opacity: 0.8; background: none; border: none; cursor: pointer; border-radius: 4px; display: flex; align-items: center; height: 20px; padding: 0 6px; }
   .nav-login-btn:hover { opacity: 1; }
   .nav-user { display: none; align-items: center; gap: 8px; }
   .nav-user.show { display: flex; }
@@ -113,7 +113,7 @@
     <a href="ypad.html" class="nav-link hide-mobile">YPad</a>
     <a href="yvision.html" class="nav-link hide-mobile">YVision</a>
     <div class="nav-actions">
-      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" style="opacity:0.8;">帮助</a>
+      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
       <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
       <div class="nav-user" id="navUser">
         <span class="nav-user-name" id="navUserName"></span>
