@@ -254,9 +254,9 @@
   </div>
 
   <!-- 返回主页按钮（倒计时结束后出现） -->
-  <a href="index.html" class="btn-home" id="homeBtn" data-i18n="beta.btn.home">
+  <a href="index.html" class="btn-home" id="homeBtn">
     <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-    返回主页
+    <span data-i18n="beta.btn.home">返回主页</span>
   </a>
 
   <div class="footer">
@@ -307,6 +307,9 @@
     } else {
       labelEl.textContent = countdownDoneText();
     }
+    /* 返回按钮文字 */
+    var btnSpan = document.querySelector('#homeBtn span[data-i18n]');
+    if (btnSpan) btnSpan.textContent = (typeof t === 'function') ? t('beta.btn.home') : (lang==='en'?'Back to Home':'返回主页');
     /* 更新语言切换按钮 */
     document.querySelectorAll('.float-lang-btn').forEach(function(btn) {
       btn.textContent = (typeof t === 'function') ? t('nav.lang') : (lang === 'en' ? '中文' : 'EN');
