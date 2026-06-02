@@ -112,6 +112,8 @@
       'footer.col3.about':    '公司介绍',
       'footer.legal':         '法律信息',
       'footer.rights':        'Copyright © 2026 YanJing And Hundred Dream Inc. 保留所有权利。',
+      'footer.disclaimer.line1': '* 以上价格为起售价。实际零售价格可能因配置不同而有所差异。YanJing And Hundred Dream 保留所有权利。',
+      'footer.disclaimer.line2': '数据准确性以购买时页面显示为准。产品供应状况随时可能变化。',
 
 
       /* ── About ── */
@@ -262,6 +264,12 @@
       'beta.countdown.done':  '您现在可以返回主页了',
       'beta.btn.home':       '返回主页',
 
+      /* ── Beta welcome modal (ycall.html etc.) ── */
+      'beta.welcome.tag':     'Beta · 内测公告',
+      'beta.welcome.title':   '欢迎进入内测',
+      'beta.welcome.body':    '尊敬的用户，欢迎您进入我们的网站进行内测。不管是无意打开或是作者邀请，请您停下手指，进入我们的网站进行测试，谢谢。',
+      'beta.welcome.confirm': '确认',
+
       /* ── Language picker modal ── */
       'langpicker.question': '您想使用哪种语言？',
       'langpicker.sub':      'Which language would you like to use?',
@@ -370,6 +378,8 @@
       'footer.col3.about':    'About Us',
       'footer.legal':         'Legal',
       'footer.rights':        'Copyright © 2026 YanJing And Hundred Dream Inc. All rights reserved.',
+      'footer.disclaimer.line1': '* Prices are starting prices. Actual retail prices may vary by configuration. YanJing And Hundred Dream reserves all rights.',
+      'footer.disclaimer.line2': 'Prices displayed at time of purchase are final. Product availability is subject to change at any time.',
 
 
       /* ── About ── */
@@ -519,6 +529,12 @@
       'beta.countdown.label': 'You can return to the home page in {n} seconds',
       'beta.countdown.done':  'You can now go back to the home page',
       'beta.btn.home':       'Back to Home',
+
+      /* ── Beta welcome modal (ycall.html etc.) ── */
+      'beta.welcome.tag':     'Beta · Preview',
+      'beta.welcome.title':   'Welcome to the Beta',
+      'beta.welcome.body':    'Dear visitor, welcome to our beta site. Whether you stumbled upon it or were invited by the author, we invite you to explore and test our website. Thank you.',
+      'beta.welcome.confirm': 'Got It',
 
       /* ── Language picker modal ── */
       'langpicker.question': '您想使用哪种语言？',

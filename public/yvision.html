@@ -267,28 +267,28 @@
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">&times;</button>
     <div id="registerFormContent">
-      <h2>创建 YanJing ID</h2><p>加入 YanJing 生态</p>
+      <h2 data-i18n="auth.register.title">创建 YanJing ID</h2><p data-i18n="auth.register.subtitle">加入 YanJing 生态</p>
       <form id="registerForm" onsubmit="return false">
-        <div class="form-group"><label>用户名</label><input class="form-input" type="text" id="reg-username" placeholder="3-30个字符" maxlength="30"></div>
-        <div class="form-group"><label>邮箱</label><input class="form-input" type="email" id="reg-email" placeholder="example@mail.com"></div>
-        <div class="form-group"><label>密码</label><input class="form-input" type="password" id="reg-password" placeholder="至少8位"></div>
-        <div class="form-group"><label>注册码</label><input class="form-input" type="text" id="reg-code" placeholder="请输入注册码"><p class="hint">注册码为必填项</p></div>
+        <div class="form-group"><label data-i18n="auth.field.username">用户名</label><input class="form-input" type="text" id="reg-username" placeholder="3-30个字符" maxlength="30" data-i18n-placeholder="auth.placeholder.username"></div>
+        <div class="form-group"><label data-i18n="auth.field.email">邮箱</label><input class="form-input" type="email" id="reg-email" placeholder="example@mail.com" data-i18n-placeholder="auth.placeholder.email"></div>
+        <div class="form-group"><label data-i18n="auth.field.password">密码</label><input class="form-input" type="password" id="reg-password" placeholder="至少8位" data-i18n-placeholder="auth.placeholder.password"></div>
+        <div class="form-group"><label data-i18n="auth.field.code">注册码</label><input class="form-input" type="text" id="reg-code" placeholder="请输入注册码" data-i18n-placeholder="auth.placeholder.code"><p class="hint" data-i18n="auth.hint.code">注册码为必填项</p></div>
         <div class="form-error" id="formError"></div>
-        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:15px;background:#ff6b35;" id="regSubmitBtn">注册</button>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:15px;background:#ff6b35;" id="regSubmitBtn" data-i18n="auth.btn.register">注册</button>
       </form>
-      <p style="text-align:center;margin-top:16px;font-size:14px;color:#86868b;">已有账户？<a onclick="switchModal('login')" style="color:#ff6b35;cursor:pointer;">登录</a></p>
+      <p style="text-align:center;margin-top:16px;font-size:14px;color:#86868b;"><span data-i18n="auth.switch.to_login">已有账户？</span><a onclick="switchModal('login')" style="color:#ff6b35;cursor:pointer;" data-i18n="auth.switch.to_login_link">登录</a></p>
     </div>
     <div id="loginFormContent" style="display:none;">
-      <h2>登录</h2><p>欢迎回来</p>
+      <h2 data-i18n="auth.login.title">登录</h2><p data-i18n="auth.login.subtitle">欢迎回来</p>
       <form id="loginForm" onsubmit="return false">
-        <div class="form-group"><label>用户名或邮箱</label><input class="form-input" type="text" id="login-account" placeholder="输入用户名或邮箱"></div>
-        <div class="form-group"><label>密码</label><input class="form-input" type="password" id="login-password" placeholder="输入密码"></div>
+        <div class="form-group"><label data-i18n="auth.field.account">用户名或邮箱</label><input class="form-input" type="text" id="login-account" placeholder="输入用户名或邮箱" data-i18n-placeholder="auth.placeholder.account"></div>
+        <div class="form-group"><label data-i18n="auth.field.password">密码</label><input class="form-input" type="password" id="login-password" placeholder="输入密码" data-i18n-placeholder="auth.placeholder.loginpwd"></div>
         <div class="form-error" id="loginError"></div>
-        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:15px;background:#ff6b35;" id="loginSubmitBtn">登录</button>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:15px;background:#ff6b35;" id="loginSubmitBtn" data-i18n="auth.btn.login">登录</button>
       </form>
-      <p style="text-align:center;margin-top:16px;font-size:14px;color:#86868b;">还没有账户？<a onclick="switchModal('register')" style="color:#ff6b35;cursor:pointer;">创建新账户</a></p>
+      <p style="text-align:center;margin-top:16px;font-size:14px;color:#86868b;"><span data-i18n="auth.switch.to_register">还没有账户？</span><a onclick="switchModal('register')" style="color:#ff6b35;cursor:pointer;" data-i18n="auth.switch.to_register_link">创建新账户</a></p>
     </div>
-    <div id="modalSuccess" style="display:none;text-align:center;"><div style="font-size:48px;margin-bottom:16px;">&#10003;</div><h2 id="successTitle">欢迎！</h2><p id="successMsg"></p><button class="btn-primary" onclick="closeModal()" style="margin-top:16px;width:100%;justify-content:center;font-size:15px;background:#ff6b35;">开始探索</button></div>
+    <div id="modalSuccess" style="display:none;text-align:center;"><div style="font-size:48px;margin-bottom:16px;">&#10003;</div><h2 id="successTitle">欢迎！</h2><p id="successMsg"></p><button class="btn-primary" onclick="closeModal()" style="margin-top:16px;width:100%;justify-content:center;font-size:15px;background:#ff6b35;" data-i18n="auth.success.start">开始探索</button></div>
   </div>
 </div>
 
@@ -333,10 +333,10 @@ document.getElementById('loginForm').addEventListener('submit',async function(e)
 <div id="beta-overlay">
   <div id="beta-modal">
     <div class="bm-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></div>
-    <div class="bm-tag">Beta · 内测公告</div>
-    <div class="bm-title">欢迎进入内测</div>
-    <div class="bm-body">尊敬的用户，欢迎您进入我们的网站进行内测。不管是无意打开或是作者邀请，请您停下手指，进入我们的网站进行测试，谢谢。</div>
-    <button class="bm-confirm" onclick="betaConfirm()">确认</button>
+    <div class="bm-tag" data-i18n="beta.welcome.tag">Beta · 内测公告</div>
+    <div class="bm-title" data-i18n="beta.welcome.title">欢迎进入内测</div>
+    <div class="bm-body" data-i18n="beta.welcome.body">尊敬的用户，欢迎您进入我们的网站进行内测。不管是无意打开或是作者邀请，请您停下手指，进入我们的网站进行测试，谢谢。</div>
+    <button class="bm-confirm" onclick="betaConfirm()" data-i18n="beta.welcome.confirm">确认</button>
   </div>
 </div>
 <script>

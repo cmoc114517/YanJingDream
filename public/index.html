@@ -473,68 +473,68 @@
 
       <form id="registerForm" novalidate>
         <div class="form-group">
-          <label for="reg-username">用户名</label>
-          <input class="form-input" type="text" id="reg-username" placeholder="3-30 个字符，字母数字下划线" autocomplete="username" maxlength="30">
+          <label for="reg-username" data-i18n="auth.field.username">用户名</label>
+          <input class="form-input" type="text" id="reg-username" placeholder="3-30 个字符，字母数字下划线" autocomplete="username" maxlength="30" data-i18n-placeholder="auth.placeholder.username">
           <div class="form-error" id="err-reg-username"></div>
         </div>
 
         <div class="form-group">
-          <label for="reg-email">电子邮件</label>
-          <input class="form-input" type="email" id="reg-email" placeholder="example@mail.com" autocomplete="email">
+          <label for="reg-email" data-i18n="auth.field.email">电子邮件</label>
+          <input class="form-input" type="email" id="reg-email" placeholder="example@mail.com" autocomplete="email" data-i18n-placeholder="auth.placeholder.email">
           <div class="form-error" id="err-reg-email"></div>
         </div>
 
         <div class="form-group">
-          <label for="reg-password">密码</label>
-          <input class="form-input" type="password" id="reg-password" placeholder="至少 8 个字符" autocomplete="new-password">
+          <label for="reg-password" data-i18n="auth.field.password">密码</label>
+          <input class="form-input" type="password" id="reg-password" placeholder="至少 8 个字符" autocomplete="new-password" data-i18n-placeholder="auth.placeholder.password">
           <div class="form-error" id="err-reg-password"></div>
         </div>
 
         <div class="form-divider"></div>
 
         <div class="form-group">
-          <label for="reg-code">注册码</label>
+          <label for="reg-code" data-i18n="auth.field.code">注册码</label>
           <div class="input-code-wrap">
-            <input class="form-input" type="text" id="reg-code" placeholder="请输入邀请注册码" autocomplete="off">
+            <input class="form-input" type="text" id="reg-code" placeholder="请输入邀请注册码" autocomplete="off" data-i18n-placeholder="auth.placeholder.code">
             <span class="code-indicator" id="codeIndicator"></span>
           </div>
-          <div class="form-hint" id="hint-code">注册码为必填项</div>
+          <div class="form-hint" id="hint-code" data-i18n="auth.hint.code">注册码为必填项</div>
           <div class="form-error" id="err-reg-code"></div>
         </div>
 
         <button class="modal-submit" type="submit" id="regSubmitBtn">
-          <span class="btn-text">立即注册</span>
+          <span class="btn-text" data-i18n="auth.btn.register">立即注册</span>
           <span class="btn-loading"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></span>
         </button>
       </form>
-      <p class="modal-switch">已有账户？<a onclick="switchModal('login')">登录</a></p>
+      <p class="modal-switch"><span data-i18n="auth.switch.to_login">已有账户？</span><a onclick="switchModal('login')" data-i18n="auth.switch.to_login_link">登录</a></p>
     </div>
 
     <!-- ===== 登录表单 ===== -->
     <div class="login-form-content" id="loginFormContent">
-      <div class="modal-logo">YanJing And Hundred Dream</div>
+      <div class="modal-logo" data-i18n="auth.brand">YanJing And Hundred Dream</div>
       <h2 class="modal-title" data-i18n="auth.login.title">登录</h2>
       <p class="modal-subtitle" data-i18n="auth.login.subtitle">欢迎回来，继续你的 YanJing 之旅</p>
 
       <form id="loginForm" novalidate>
         <div class="form-group">
-          <label for="login-account">用户名 或 邮箱</label>
-          <input class="form-input" type="text" id="login-account" placeholder="输入用户名或邮箱地址" autocomplete="username">
+          <label for="login-account" data-i18n="auth.field.account">用户名 或 邮箱</label>
+          <input class="form-input" type="text" id="login-account" placeholder="输入用户名或邮箱地址" autocomplete="username" data-i18n-placeholder="auth.placeholder.account">
           <div class="form-error" id="err-login-account"></div>
         </div>
 
         <div class="form-group">
-          <label for="login-password">密码</label>
-          <input class="form-input" type="password" id="login-password" placeholder="输入密码" autocomplete="current-password">
+          <label for="login-password" data-i18n="auth.field.password">密码</label>
+          <input class="form-input" type="password" id="login-password" placeholder="输入密码" autocomplete="current-password" data-i18n-placeholder="auth.placeholder.loginpwd">
           <div class="form-error" id="err-login-password"></div>
         </div>
 
         <button class="modal-submit" type="submit" id="loginSubmitBtn">
-          <span class="btn-text">登录</span>
+          <span class="btn-text" data-i18n="auth.btn.login">登录</span>
           <span class="btn-loading"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></span>
         </button>
       </form>
-      <p class="modal-switch">还没有账户？<a onclick="switchModal('register')">创建新账户</a></p>
+      <p class="modal-switch"><span data-i18n="auth.switch.to_register">还没有账户？</span><a onclick="switchModal('register')" data-i18n="auth.switch.to_register_link">创建新账户</a></p>
     </div>
 
     <!-- 登录/注册成功界面 -->
@@ -685,36 +685,36 @@
 <!-- ===== PRICING ===== -->
 <section class="section section-light" id="support">
   <div class="reveal" style="text-align:center;padding:0 24px;">
-    <p class="section-label">选择你的 Ycall</p>
-    <h2 class="section-title">哪一款 Ycall 适合你？</h2>
+    <p class="section-label" data-i18n="ycall.buy.label">选择你的 Ycall</p>
+    <h2 class="section-title" data-i18n="ycall.buy.title">哪一款 Ycall 适合你？</h2>
   </div>
   <div class="pricing-grid">
     <div class="pricing-card reveal reveal-delay-1">
       <div class="pricing-name">Ycall 2</div>
       <div class="pricing-price">¥5,999</div>
-      <div class="pricing-period">起售价</div>
+      <div class="pricing-period" data-i18n="ycall.period.from">起售价</div>
       <ul class="pricing-features">
-        <li>6.1" Super Retina XDR</li><li>A18 芯片</li><li>双摄系统 48MP</li><li>USB-C 接口</li><li>灵动岛交互</li>
+        <li data-i18n="ycall.price.base.f1">6.1" Super Retina XDR</li><li data-i18n="ycall.price.base.f2">A18 芯片</li><li data-i18n="ycall.price.base.f3">双摄系统 48MP</li><li data-i18n="ycall.price.base.f4">USB-C 接口</li><li data-i18n="ycall.price.base.f5">灵动岛交互</li>
       </ul>
-      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="openModal()">购买</button>
+      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="openModal()" data-i18n="ycall.btn.buy">购买</button>
     </div>
     <div class="pricing-card popular reveal reveal-delay-2">
       <div class="pricing-name">Ycall 2 Pro</div>
       <div class="pricing-price">¥7,999</div>
-      <div class="pricing-period">起售价</div>
+      <div class="pricing-period" data-i18n="ycall.period.rec">起售价</div>
       <ul class="pricing-features">
-        <li>6.3" ProMotion 120Hz</li><li>A18 Pro 芯片</li><li>三摄系统 48MP</li><li>钛金属设计</li><li>YanJing 智能加持</li>
+        <li data-i18n="ycall.price.pro.f1">6.3" ProMotion 120Hz</li><li data-i18n="ycall.price.pro.f2">A18 Pro 芯片</li><li data-i18n="ycall.price.pro.f3">三摄系统 48MP</li><li data-i18n="ycall.price.pro.f4">钛金属设计</li><li data-i18n="ycall.price.pro.f5">YanJing 智能加持</li>
       </ul>
-      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="openModal()">购买</button>
+      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="openModal()" data-i18n="ycall.btn.buy">购买</button>
     </div>
     <div class="pricing-card reveal reveal-delay-3">
       <div class="pricing-name">Ycall 2 Pro Max</div>
       <div class="pricing-price">¥9,999</div>
-      <div class="pricing-period">起售价</div>
+      <div class="pricing-period" data-i18n="ycall.period.from">起售价</div>
       <ul class="pricing-features">
-        <li>6.9" ProMotion 120Hz</li><li>A18 Pro 芯片</li><li>三摄系统 48MP 5x</li><li>钛金属设计</li><li>最长电池续航</li>
+        <li data-i18n="ycall.price.max.f1">6.9" ProMotion 120Hz</li><li data-i18n="ycall.price.max.f2">A18 Pro 芯片</li><li data-i18n="ycall.price.max.f3">三摄系统 48MP 5x</li><li data-i18n="ycall.price.max.f4">钛金属设计</li><li data-i18n="ycall.price.max.f5">最长电池续航</li>
       </ul>
-      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="openModal()">购买</button>
+      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="openModal()" data-i18n="ycall.btn.buy">购买</button>
     </div>
   </div>
 </section>
@@ -722,8 +722,10 @@
 <!-- ===== FOOTER ===== -->
 <footer class="footer">
   <div class="footer-inner">
-    <p class="footer-legal">
-      * 以上价格为起售价。实际零售价格可能因配置不同而有所差异。YanJing And Hundred Dream 保留所有权利。<br>
+    <p class="footer-legal" data-i18n="footer.disclaimer.line1">
+      * 以上价格为起售价。实际零售价格可能因配置不同而有所差异。YanJing And Hundred Dream 保留所有权利。
+    </p>
+    <p class="footer-legal" data-i18n="footer.disclaimer.line2">
       数据准确性以购买时页面显示为准。产品供应状况随时可能变化。
     </p>
     <div class="footer-grid">
@@ -1184,10 +1186,10 @@ checkAuth();
 <div id="beta-overlay">
   <div id="beta-modal">
     <div class="bm-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></div>
-    <div class="bm-tag">Beta · 内测公告</div>
-    <div class="bm-title">欢迎进入内测</div>
-    <div class="bm-body">尊敬的用户，欢迎您进入我们的网站进行内测。不管是无意打开或是作者邀请，请您停下手指，进入我们的网站进行测试，谢谢。</div>
-    <button class="bm-confirm" onclick="betaConfirm()">确认</button>
+    <div class="bm-tag" data-i18n="beta.welcome.tag">Beta · 内测公告</div>
+    <div class="bm-title" data-i18n="beta.welcome.title">欢迎进入内测</div>
+    <div class="bm-body" data-i18n="beta.welcome.body">尊敬的用户，欢迎您进入我们的网站进行内测。不管是无意打开或是作者邀请，请您停下手指，进入我们的网站进行测试，谢谢。</div>
+    <button class="bm-confirm" onclick="betaConfirm()" data-i18n="beta.welcome.confirm">确认</button>
   </div>
 </div>
 <script>
