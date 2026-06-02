@@ -1,0 +1,16 @@
+# Cloudflare Pages 缓存策略
+# HTML 文件不缓存 — 每次请求都拉取最新版本
+/*.html
+  Cache-Control: no-cache, must-revalidate
+  CDN-Cache-Control: no-cache
+
+# JS/CSS 文件缓存 24 小时（后续可以用文件名 hash 延长到永久缓存）
+/*.js
+  Cache-Control: public, max-age=86400
+
+/*.css
+  Cache-Control: public, max-age=86400
+
+# 图片缓存 7 天
+/images/*
+  Cache-Control: public, max-age=604800
