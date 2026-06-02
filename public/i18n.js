@@ -170,9 +170,33 @@
       'supplier.hero.title': '供应商责任',
       'supplier.hero.desc':  '我们要求整个供应链中的每一个合作伙伴，都达到与 YanJing 相同的标准。',
 
-      /* ── Help / Beta pages ── */
-      'help.title':  '帮助与反馈',
-      'beta.title':  '内测须知',
+      /* ── Help / Feedback page (userhelp_iwillsee.html) ── */
+      'help.pagetag':        'HELP & FEEDBACK',
+      'help.title':          '帮助与反馈',
+      'help.subtitle':       '感谢您帮助我们改进 YanJing And Hundred Dream',
+      'help.card1.heading':  '如何反馈问题',
+      'help.step1':          '记录下您发现的问题或漏洞的具体表现，截图更佳',
+      'help.step2':          '写清问题来源：哪个页面、什么操作触发、出现了什么异常',
+      'help.step3':          '通过下方联系方式发送给我们，我们将尽快处理',
+      'help.card2.heading':  '联系作者',
+      'help.contact.type.qq': 'QQ 邮箱',
+      'help.note':           '※ 反馈时请写清来因，以便我们快速定位问题，谢谢！',
+      'help.btn.home':       '返回主页',
+      'help.btn.beta':       '查看内测须知',
+
+      /* ── Beta / Test page (usertestandhelp.html) ── */
+      'beta.pagetag':        'BETA NOTICE',
+      'beta.title':          '内测说明',
+      'beta.card.title':     '致各位访客',
+      'beta.text1':          '由于我们目前处于网站内测阶段，网页中可能出现各种漏洞或功能异常，还请各位用户理解与原谅。',
+      'beta.text2.pre':      '如您在使用过程中发现任何问题、漏洞或异常，请点击主页中的',
+      'beta.text2.btn':      '「帮助」',
+      'beta.text2.post':     '按钮进行反馈，或直接联系我们的作者：',
+      'beta.contact.type.qq': 'QQ',
+      'beta.note':           '※ 反馈时请写清来因，以便我们尽快定位并修复问题，谢谢您的支持！',
+      'beta.countdown.label': '页面将在 {n} 秒后允许返回主页',
+      'beta.countdown.done':  '您现在可以返回主页了',
+      'beta.btn.home':       '返回主页',
 
       /* ── Language picker modal ── */
       'langpicker.question': '您想使用哪种语言？',
@@ -340,9 +364,33 @@
       'supplier.hero.title': 'Supplier Responsibility',
       'supplier.hero.desc':  'We hold every partner in our supply chain to the same high standards we set for ourselves.',
 
-      /* ── Help / Beta pages ── */
-      'help.title':  'Help & Feedback',
-      'beta.title':  'Beta Program',
+      /* ── Help / Feedback page (userhelp_iwillsee.html) ── */
+      'help.pagetag':        'HELP & FEEDBACK',
+      'help.title':          'Help & Feedback',
+      'help.subtitle':       'Thank you for helping us improve YanJing And Hundred Dream',
+      'help.card1.heading':  'How to Report an Issue',
+      'help.step1':          'Document the issue or bug with as much detail as possible — screenshots are even better',
+      'help.step2':          'Note where it happened: which page, what you did, and what went wrong',
+      'help.step3':          'Send it to us via the contact methods below and we\'ll look into it right away',
+      'help.card2.heading':  'Contact the Author',
+      'help.contact.type.qq': 'QQ Mail',
+      'help.note':           '※ Please describe the issue clearly so we can locate and fix it quickly. Thank you!',
+      'help.btn.home':       'Back to Home',
+      'help.btn.beta':       'View Beta Notice',
+
+      /* ── Beta / Test page (usertestandhelp.html) ── */
+      'beta.pagetag':        'BETA NOTICE',
+      'beta.title':          'Beta Program',
+      'beta.card.title':     'A NOTE TO OUR VISITORS',
+      'beta.text1':          'Our website is currently in beta. You may encounter bugs or unexpected behavior — we appreciate your patience and understanding.',
+      'beta.text2.pre':      'If you spot any issues, please click the',
+      'beta.text2.btn':      '"Help"',
+      'beta.text2.post':     'button on the home page to send us feedback, or reach out directly:',
+      'beta.contact.type.qq': 'QQ Mail',
+      'beta.note':           '※ Please include as much context as possible so we can track down the problem quickly. Thank you for your support!',
+      'beta.countdown.label': 'You can return to the home page in {n} seconds',
+      'beta.countdown.done':  'You can now go back to the home page',
+      'beta.btn.home':       'Back to Home',
 
       /* ── Language picker modal ── */
       'langpicker.question': '您想使用哪种语言？',
@@ -378,11 +426,20 @@
     // Update <html lang>
     document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
 
-    // Text content
+    // Text content — only update leaf nodes (no child elements) to avoid stomping sub-elements
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var key = el.getAttribute('data-i18n');
       var val = t(key);
-      if (val) el.textContent = val;
+      if (!val) return;
+      // If the element has child *elements* (not just text nodes), skip to avoid losing them.
+      // Child-element check: any node with nodeType === 1
+      var hasChildEl = false;
+      for (var i = 0; i < el.childNodes.length; i++) {
+        if (el.childNodes[i].nodeType === 1) { hasChildEl = true; break; }
+      }
+      if (!hasChildEl) {
+        el.textContent = val;
+      }
     });
 
     // Placeholder attributes

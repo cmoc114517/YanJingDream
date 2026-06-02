@@ -184,6 +184,17 @@
     font-size: 12px; color: #424245;
   }
 
+  /* 悬浮语言切换按钮 */
+  .float-lang-btn {
+    position: fixed; top: 20px; right: 20px; z-index: 9999;
+    font-size: 12px; color: #f5f5f7; opacity: 0.8;
+    background: none; border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px; cursor: pointer;
+    padding: 4px 10px; font-family: inherit;
+    transition: opacity 0.25s, border-color 0.25s;
+  }
+  .float-lang-btn:hover { opacity: 1; border-color: rgba(255,255,255,0.6); }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -193,6 +204,9 @@
 </head>
 <body>
 
+<!-- 悬浮语言切换按钮 -->
+<button class="float-lang-btn lang-toggle-btn" data-i18n="nav.lang" onclick="switchLang(window.__yanjingLang==='en'?'zh-CN':'en')">EN</button>
+
 <div class="container">
 
   <!-- 图标 -->
@@ -200,18 +214,20 @@
     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
   </div>
 
-  <div class="page-tag">Beta Notice</div>
-  <h1 class="page-title">内测<span class="accent">说明</span></h1>
+  <div class="page-tag" data-i18n="beta.pagetag">Beta Notice</div>
+  <h1 class="page-title"><span data-i18n="beta.title">内测说明</span></h1>
 
   <!-- 内容卡片 -->
   <div class="card">
-    <div class="card-title">致各位访客</div>
+    <div class="card-title" data-i18n="beta.card.title">致各位访客</div>
     <div class="notice-text">
-      <p>
+      <p data-i18n="beta.text1">
         由于我们目前处于网站内测阶段，网页中可能出现各种漏洞或功能异常，还请各位用户理解与原谅。
       </p>
       <p>
-        如您在使用过程中发现任何问题、漏洞或异常，请点击主页中的 <strong style="color:#5ac8fa;">「帮助」</strong> 按钮进行反馈，或直接联系我们的作者：
+        <span data-i18n="beta.text2.pre">如您在使用过程中发现任何问题、漏洞或异常，请点击主页中的</span>
+        <strong style="color:#5ac8fa;" data-i18n="beta.text2.btn">「帮助」</strong>
+        <span data-i18n="beta.text2.post">按钮进行反馈，或直接联系我们的作者：</span>
       </p>
     </div>
 
@@ -221,24 +237,24 @@
         <span class="contact-val">cmoc114514@gmail.com</span>
       </li>
       <li>
-        <span class="contact-label">QQ</span>
+        <span class="contact-label" data-i18n="beta.contact.type.qq">QQ</span>
         <span class="contact-val">2953512634@qq.com</span>
       </li>
     </ul>
 
-    <p class="note-text">※ 反馈时请写清来因，以便我们尽快定位并修复问题，谢谢您的支持！</p>
+    <p class="note-text" data-i18n="beta.note">※ 反馈时请写清来因，以便我们尽快定位并修复问题，谢谢您的支持！</p>
   </div>
 
   <!-- 倒计时区域 -->
   <div class="countdown-wrap">
-    <div class="countdown-label" id="countdownLabel">页面将在 <span id="countdownNum" class="countdown-num">10</span> 秒后允许返回主页</div>
+    <div class="countdown-label" id="countdownLabel"></div>
     <div class="countdown-bar-bg">
       <div class="countdown-bar" id="countdownBar"></div>
     </div>
   </div>
 
   <!-- 返回主页按钮（倒计时结束后出现） -->
-  <a href="index.html" class="btn-home" id="homeBtn">
+  <a href="index.html" class="btn-home" id="homeBtn" data-i18n="beta.btn.home">
     <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     返回主页
   </a>
@@ -249,32 +265,53 @@
 
 </div>
 
+<script src="i18n.js"></script>
 <script>
-  let count = 10;
-  const numEl = document.getElementById('countdownNum');
-  const barEl = document.getElementById('countdownBar');
-  const labelEl = document.getElementById('countdownLabel');
-  const btnEl = document.getElementById('homeBtn');
+  var count = 10;
+  var barEl = document.getElementById('countdownBar');
+  var labelEl = document.getElementById('countdownLabel');
+  var btnEl = document.getElementById('homeBtn');
 
-  // 初始进度条满
+  /* 生成倒计时文字（支持双语） */
+  function countdownText(n) {
+    var tpl = (typeof t === 'function') ? t('beta.countdown.label') : '页面将在 {n} 秒后允许返回主页';
+    return tpl.replace('{n}', '<strong style="font-size:20px;color:#0071e3;font-variant-numeric:tabular-nums;">' + n + '</strong>');
+  }
+  function countdownDoneText() {
+    return (typeof t === 'function') ? t('beta.countdown.done') : '您现在可以返回主页了';
+  }
+
+  /* 初始显示 */
+  labelEl.innerHTML = countdownText(count);
   barEl.style.width = '100%';
 
-  const timer = setInterval(() => {
+  var timer = setInterval(function () {
     count--;
-    // 数字跳动动画
-    numEl.classList.add('tick');
-    setTimeout(() => numEl.classList.remove('tick'), 200);
-
-    numEl.textContent = count;
+    labelEl.innerHTML = countdownText(count);
     barEl.style.width = (count / 10 * 100) + '%';
 
     if (count <= 0) {
       clearInterval(timer);
-      labelEl.textContent = '您现在可以返回主页了';
-      numEl.style.display = 'none';
+      labelEl.textContent = countdownDoneText();
       btnEl.classList.add('show');
     }
   }, 1000);
+
+  /* 当语言切换时，更新倒计时标签 */
+  var _origSwitchLang = window.switchLang;
+  window.switchLang = function(lang) {
+    _origSwitchLang && _origSwitchLang(lang);
+    /* 更新倒计时文字 */
+    if (count > 0) {
+      labelEl.innerHTML = countdownText(count);
+    } else {
+      labelEl.textContent = countdownDoneText();
+    }
+    /* 更新语言切换按钮 */
+    document.querySelectorAll('.float-lang-btn').forEach(function(btn) {
+      btn.textContent = (typeof t === 'function') ? t('nav.lang') : (lang === 'en' ? '中文' : 'EN');
+    });
+  };
 </script>
 
 </body>

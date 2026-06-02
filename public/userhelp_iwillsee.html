@@ -154,6 +154,17 @@
     margin-top: 48px; font-size: 12px; color: #3a3a3c;
   }
 
+  /* 悬浮语言切换按钮 */
+  .float-lang-btn {
+    position: fixed; top: 20px; right: 20px; z-index: 9999;
+    font-size: 12px; color: #f5f5f7; opacity: 0.8;
+    background: none; border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px; cursor: pointer;
+    padding: 4px 10px; font-family: inherit;
+    transition: opacity 0.25s, border-color 0.25s;
+  }
+  .float-lang-btn:hover { opacity: 1; border-color: rgba(255,255,255,0.6); }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -162,38 +173,41 @@
 </head>
 <body>
 
+<!-- 悬浮语言切换按钮 -->
+<button class="float-lang-btn lang-toggle-btn" data-i18n="nav.lang" onclick="switchLang(window.__yanjingLang==='en'?'zh-CN':'en')">EN</button>
+
 <div class="container">
 
   <div class="icon-wrap">
     <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v6z"/></svg>
   </div>
 
-  <div class="page-tag">Help &amp; Feedback</div>
-  <h1>帮助与<span class="accent">反馈</span></h1>
-  <p class="subtitle">感谢您帮助我们改进 YanJing And Hundred Dream</p>
+  <div class="page-tag" data-i18n="help.pagetag">HELP &amp; FEEDBACK</div>
+  <h1><span data-i18n="help.title">帮助与反馈</span></h1>
+  <p class="subtitle" data-i18n="help.subtitle">感谢您帮助我们改进 YanJing And Hundred Dream</p>
 
   <!-- 说明卡片 -->
   <div class="card">
-    <div class="card-heading">如何反馈问题</div>
+    <div class="card-heading" data-i18n="help.card1.heading">如何反馈问题</div>
     <ul class="steps">
       <li>
         <span class="step-num">1</span>
-        <span>记录下您发现的问题或漏洞的具体表现，截图更佳</span>
+        <span data-i18n="help.step1">记录下您发现的问题或漏洞的具体表现，截图更佳</span>
       </li>
       <li>
         <span class="step-num">2</span>
-        <span>写清问题来源：哪个页面、什么操作触发、出现了什么异常</span>
+        <span data-i18n="help.step2">写清问题来源：哪个页面、什么操作触发、出现了什么异常</span>
       </li>
       <li>
         <span class="step-num">3</span>
-        <span>通过下方联系方式发送给我们，我们将尽快处理</span>
+        <span data-i18n="help.step3">通过下方联系方式发送给我们，我们将尽快处理</span>
       </li>
     </ul>
   </div>
 
   <!-- 联系方式卡片 -->
   <div class="card">
-    <div class="card-heading">联系作者</div>
+    <div class="card-heading" data-i18n="help.card2.heading">联系作者</div>
     <div class="contact-box">
       <div class="contact-item">
         <span class="contact-icon">📧</span>
@@ -205,23 +219,23 @@
       <div class="contact-item">
         <span class="contact-icon">💬</span>
         <div class="contact-info">
-          <span class="contact-type">QQ 邮箱</span>
+          <span class="contact-type" data-i18n="help.contact.type.qq">QQ 邮箱</span>
           <span class="contact-addr">2953512634@qq.com</span>
         </div>
       </div>
     </div>
-    <p style="font-size:13px;color:#86868b;margin-top:14px;font-style:italic;">
+    <p style="font-size:13px;color:#86868b;margin-top:14px;font-style:italic;" data-i18n="help.note">
       ※ 反馈时请写清来因，以便我们快速定位问题，谢谢！
     </p>
   </div>
 
   <!-- 按钮 -->
   <div class="btn-group">
-    <a href="index.html" class="btn-primary">
+    <a href="index.html" class="btn-primary" data-i18n="help.btn.home">
       <svg style="width:16px;height:16px;fill:#fff;" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
       返回主页
     </a>
-    <a href="usertestandhelp.html" class="btn-secondary">查看内测须知</a>
+    <a href="usertestandhelp.html" class="btn-secondary" data-i18n="help.btn.beta">查看内测须知</a>
   </div>
 
   <div class="footer">
@@ -230,5 +244,6 @@
 
 </div>
 
+<script src="i18n.js"></script>
 </body>
 </html>
