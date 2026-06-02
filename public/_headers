@@ -4,12 +4,16 @@
   Cache-Control: no-cache, must-revalidate
   CDN-Cache-Control: no-cache
 
-# JS/CSS 文件缓存 24 小时（后续可以用文件名 hash 延长到永久缓存）
+# i18n.js 经常更新，短缓存 10 分钟
+/i18n.js
+  Cache-Control: public, max-age=600
+
+# 其他 JS/CSS 缓存 1 小时
 /*.js
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600
 
 /*.css
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600
 
 # 图片缓存 7 天
 /images/*
