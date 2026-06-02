@@ -61,13 +61,13 @@
     <a href="ypad.html" class="nav-link">YPad</a>
     <a href="yvision.html" class="nav-link">YVision</a>
     <div class="nav-actions">
-      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
-      <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
-      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" onclick="logout()">退出</button></div>
+      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" data-i18n="nav.help" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
+      <button class="nav-login-btn" id="navLoginBtn" data-i18n="nav.login" onclick="openModal('login')">登录</button>
+      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" data-i18n="nav.logout" onclick="logout()">退出</button></div>
     </div>
   </div>
 </nav>
-<section class="hero"><h1>辅助功能</h1><p>科技应该为每一个人服务。我们致力于让 YanJing 的每一款产品都对所有人开放、可用。</p></section>
+<section class="hero"><h1 data-i18n="access.hero.title">辅助功能</h1><p>科技应该为每一个人服务。我们致力于让 YanJing 的每一款产品都对所有人开放、可用。</p></section>
 <section class="content-section">
   <h2>我们的承诺</h2>
   <p>自 2000 年创立以来，YanJing 始终将无障碍设计视为产品哲学的核心部分，而非事后补救。"辅助功能"这个词甚至不够准确——我们更愿意称之为"人人可用"。因为让视障用户能用的功能，也会让驾驶中的司机受益匪浅；让听力障碍者能用的设计，同样让嘈杂环境中的每一个人受益。</p>
@@ -147,6 +147,7 @@ function betaConfirm(){sessionStorage.setItem('beta_ack','1');var o=document.get
 </script>
 <!-- ===== /BETA WELCOME MODAL ===== -->
 
+<script src="i18n.js"></script>
 </body>
 </html>
 </html>

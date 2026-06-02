@@ -60,13 +60,13 @@
     <a href="ypad.html" class="nav-link">YPad</a>
     <a href="yvision.html" class="nav-link">YVision</a>
     <div class="nav-actions">
-      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
-      <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
-      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" onclick="logout()">退出</button></div>
+      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" data-i18n="nav.help" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
+      <button class="nav-login-btn" id="navLoginBtn" data-i18n="nav.login" onclick="openModal('login')">登录</button>
+      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" data-i18n="nav.logout" onclick="logout()">退出</button></div>
     </div>
   </div>
 </nav>
-<section class="hero"><h1>关于 YanJing</h1><p>二十六年专注创新——从 2000 年到今天，我们始终相信科技的力量可以改变每一个人的生活。</p></section>
+<section class="hero"><h1 data-i18n="about.hero.title">关于 YanJing</h1><p data-i18n="about.hero.desc">二十六年专注创新——从 2000 年到今天，我们始终相信科技的力量可以改变每一个人的生活。</p></section>
 <section class="content-section">
   <h2>我们的故事</h2>
   <p>YanJing And Hundred Dream（眼镜与百梦科技有限公司）创立于 2000 年，总部位于中国深圳。公司的名字源于一个朴素的信念：一副眼镜带来清晰的视野，一百个梦想驱动无尽的创新。</p>
@@ -155,6 +155,7 @@ function betaConfirm(){sessionStorage.setItem('beta_ack','1');var o=document.get
 </script>
 <!-- ===== /BETA WELCOME MODAL ===== -->
 
+<script src="i18n.js"></script>
 </body>
 </html>
 </html>

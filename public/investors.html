@@ -64,13 +64,13 @@
     <a href="ypad.html" class="nav-link">YPad</a>
     <a href="yvision.html" class="nav-link">YVision</a>
     <div class="nav-actions">
-      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
-      <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
-      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" onclick="logout()">退出</button></div>
+      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" data-i18n="nav.help" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
+      <button class="nav-login-btn" id="navLoginBtn" data-i18n="nav.login" onclick="openModal('login')">登录</button>
+      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" data-i18n="nav.logout" onclick="logout()">退出</button></div>
     </div>
   </div>
 </nav>
-<section class="hero"><h1>投资者关系</h1><p>了解 YanJing 的财务表现、公司治理和股东信息。</p></section>
+<section class="hero"><h1 data-i18n="investors.hero.title">投资者关系</h1><p>了解 YanJing 的财务表现、公司治理和股东信息。</p></section>
 <section class="content-section">
 
   <h2>公司概况</h2>
@@ -180,6 +180,7 @@ function betaConfirm(){sessionStorage.setItem('beta_ack','1');var o=document.get
 </script>
 <!-- ===== /BETA WELCOME MODAL ===== -->
 
+<script src="i18n.js"></script>
 </body>
 </html>
 </html>

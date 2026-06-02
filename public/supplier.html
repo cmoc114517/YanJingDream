@@ -60,13 +60,13 @@
     <a href="ypad.html" class="nav-link">YPad</a>
     <a href="yvision.html" class="nav-link">YVision</a>
     <div class="nav-actions">
-      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
-      <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
-      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" onclick="logout()">退出</button></div>
+      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" data-i18n="nav.help" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
+      <button class="nav-login-btn" id="navLoginBtn" data-i18n="nav.login" onclick="openModal('login')">登录</button>
+      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" data-i18n="nav.logout" onclick="logout()">退出</button></div>
     </div>
   </div>
 </nav>
-<section class="hero"><h1>供应商责任</h1><p>我们的产品由全球数百家供应商共同打造。我们要求每一位合作伙伴都达到最高的责任标准。</p></section>
+<section class="hero"><h1 data-i18n="supplier.hero.title">供应商责任</h1><p>我们的产品由全球数百家供应商共同打造。我们要求每一位合作伙伴都达到最高的责任标准。</p></section>
 <section class="content-section">
   <h2>我们的供应链理念</h2>
   <p>YanJing 的供应链遍布全球 30 多个国家和地区，涉及数千家各级供应商。我们深知，供应链的每一个环节都代表着 YanJing 的价值观。一件 Ycall 在工厂里被什么人、在什么条件下制造出来，与它在发布会上被展示的炫酷程度同样重要。</p>
@@ -164,6 +164,7 @@ function betaConfirm(){sessionStorage.setItem('beta_ack','1');var o=document.get
 </script>
 <!-- ===== /BETA WELCOME MODAL ===== -->
 
+<script src="i18n.js"></script>
 </body>
 </html>
 </html>

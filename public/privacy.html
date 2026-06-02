@@ -60,13 +60,13 @@
     <a href="ypad.html" class="nav-link">YPad</a>
     <a href="yvision.html" class="nav-link">YVision</a>
     <div class="nav-actions">
-      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
-      <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
-      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" onclick="logout()">退出</button></div>
+      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" data-i18n="nav.help" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
+      <button class="nav-login-btn" id="navLoginBtn" data-i18n="nav.login" onclick="openModal('login')">登录</button>
+      <div class="nav-user" id="navUser"><span class="nav-user-name" id="navUserName"></span><button class="nav-logout-btn" data-i18n="nav.logout" onclick="logout()">退出</button></div>
     </div>
   </div>
 </nav>
-<section class="hero"><h1>隐私保护</h1><p>隐私是一项基本人权。我们设计每一款产品时，都从保护你的隐私开始。</p></section>
+<section class="hero"><h1 data-i18n="privacy.hero.title">隐私保护</h1><p>隐私是一项基本人权。我们设计每一款产品时，都从保护你的隐私开始。</p></section>
 <section class="content-section">
   <h2>我们的隐私理念</h2>
   <p>YanJing 的隐私保护原则可以概括为四个字：<strong>最少知情</strong>。我们只在服务必需的情况下收集最少的数据，在设备端处理尽可能多的信息，让你对所有数据拥有完整的知情权和控制权。这不仅因为我们相信这是正确的做法——更因为二十多年的经验告诉我们：用户信任是商业成功最牢固的基石。</p>
@@ -157,6 +157,7 @@ function betaConfirm(){sessionStorage.setItem('beta_ack','1');var o=document.get
 </script>
 <!-- ===== /BETA WELCOME MODAL ===== -->
 
+<script src="i18n.js"></script>
 </body>
 </html>
 </html>

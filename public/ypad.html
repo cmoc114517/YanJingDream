@@ -113,20 +113,20 @@
     <a href="ypad.html" class="nav-link hide-mobile">YPad</a>
     <a href="yvision.html" class="nav-link hide-mobile">YVision</a>
     <div class="nav-actions">
-      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
-      <button class="nav-login-btn" id="navLoginBtn" onclick="openModal('login')">登录</button>
+      <a href="userhelp_iwillsee.html" class="nav-link hide-mobile" data-i18n="nav.help" style="opacity:0.8;padding:0 6px;display:flex;align-items:center;height:20px;">帮助</a>
+      <button class="nav-login-btn" id="navLoginBtn" data-i18n="nav.login" onclick="openModal('login')">登录</button>
       <div class="nav-user" id="navUser">
         <span class="nav-user-name" id="navUserName"></span>
-        <button class="nav-logout-btn" onclick="logout()">退出</button>
+        <button class="nav-logout-btn" data-i18n="nav.logout" onclick="logout()">退出</button>
       </div>
     </div>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">全新发布</div>
+  <div class="hero-badge" data-i18n="ypad.hero.badge">全新发布</div>
   <h1 class="hero-title">YPad Air</h1>
-  <p class="hero-tagline">轻盈。多彩。全能。</p>
+  <p class="hero-tagline" data-i18n="ypad.hero.tagline">轻盈。多彩。全能。</p>
   <p class="hero-price">¥4,599 起</p>
   <div class="hero-cta">
     <a href="#buy" class="btn-primary">购买</a>
@@ -336,5 +336,6 @@ function betaConfirm(){sessionStorage.setItem('beta_ack','1');var o=document.get
 </script>
 <!-- ===== /BETA WELCOME MODAL ===== -->
 
+<script src="i18n.js"></script>
 </body>
 </html>
